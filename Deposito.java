@@ -4,109 +4,108 @@
  */
 package ClasesPrincipales;
 
-/**
- *
- * @author S
- */
 public class Deposito {
 
-    protected int billete20;
-    protected int billete10;
-    protected int billete5;
-    protected int moneda2;
-    protected int moneda1;
-    protected int moneda05;
-    protected int moneda02;
-    protected int moneda01;
-    protected int moneda005;
+    private int billetes20;
+    private int billetes10;
+    private int billetes5;
+    private int monedas1;
+    private int monedas2;
+    private int monedas50;
+    private int monedas20;
+    private int monedas10;
+    private int monedas5;
 
-    public Deposito(int billete20, int billete10, int billete5, int moneda2, int moneda1, int moneda05, int moneda02, int moneda01, int moneda005) {
-        this.billete20 = billete20;
-        this.billete10 = billete10;
-        this.billete5 = billete5;
-        this.moneda2 = moneda2;
-        this.moneda1 = moneda1;
-        this.moneda05 = moneda05;
-        this.moneda02 = moneda02;
-        this.moneda01 = moneda01;
-        this.moneda005 = moneda005;
+    public Deposito(int billetes20, int billetes10, int billetes5, int monedas1, int monedas2, int monedas50, int monedas20, int monedas10, int monedas5) {
+        this.billetes20 = billetes20;
+        this.billetes10 = billetes10;
+        this.billetes5 = billetes5;
+        this.monedas1 = monedas1;
+        this.monedas2 = monedas2;
+        this.monedas50 = monedas50;
+        this.monedas20 = monedas20;
+        this.monedas10 = monedas10;
+        this.monedas5 = monedas5;
     }
 
-    public int getBillete20() {
-        return billete20;
+    public int getBilletes20() {
+        return billetes20;
     }
 
-    public int getBillete10() {
-        return billete10;
+    public void setBilletes20(int billetes20) {
+        this.billetes20 = billetes20;
     }
 
-    public int getBillete5() {
-        return billete5;
+    public int getBilletes10() {
+        return billetes10;
     }
 
-    public int getMoneda2() {
-        return moneda2;
+    public void setBilletes10(int billetes10) {
+        this.billetes10 = billetes10;
     }
 
-    public int getMoneda1() {
-        return moneda1;
+    public int getBilletes5() {
+        return billetes5;
     }
 
-    public int getMoneda05() {
-        return moneda05;
+    public void setBilletes5(int billetes5) {
+        this.billetes5 = billetes5;
     }
 
-    public int getMoneda02() {
-        return moneda02;
+    public int getMonedas1() {
+        return monedas1;
     }
 
-    public int getMoneda01() {
-        return moneda01;
+    public void setMonedas1(int monedas1) {
+        this.monedas1 = monedas1;
     }
 
-    public int getMoneda005() {
-        return moneda005;
+    public int getMonedas2() {
+        return monedas2;
     }
 
-    public void setBillete20(int billete20) {
-        this.billete20 = billete20;
+    public void setMonedas2(int monedas2) {
+        this.monedas2 = monedas2;
     }
 
-    public void setBillete10(int billete10) {
-        this.billete10 = billete10;
+    public int getMonedas50() {
+        return monedas50;
     }
 
-    public void setBillete5(int billete5) {
-        this.billete5 = billete5;
+    public void setMonedas50(int monedas50) {
+        this.monedas50 = monedas50;
     }
 
-    public void setMoneda2(int moneda2) {
-        this.moneda2 = moneda2;
+    public int getMonedas20() {
+        return monedas20;
     }
 
-    public void setMoneda1(int moneda1) {
-        this.moneda1 = moneda1;
+    public void setMonedas20(int monedas20) {
+        this.monedas20 = monedas20;
     }
 
-    public void setMoneda05(int moneda05) {
-        this.moneda05 = moneda05;
+    public int getMonedas10() {
+        return monedas10;
     }
 
-    public void setMoneda02(int moneda02) {
-        this.moneda02 = moneda02;
+    public void setMonedas10(int monedas10) {
+        this.monedas10 = monedas10;
     }
 
-    public void setMoneda01(int moneda01) {
-        this.moneda01 = moneda01;
+    public int getMonedas5() {
+        return monedas5;
     }
 
-    public void setMoneda005(int moneda005) {
-        this.moneda005 = moneda005;
+    public void setMonedas5(int monedas5) {
+        this.monedas5 = monedas5;
     }
 
     @Override
     public String toString() {
-        return "Deposito{" + "billete20=" + billete20 + ", billete10=" + billete10 + ", billete5=" + billete5 + ", moneda2=" + moneda2 + ", moneda1=" + moneda1 + ", moneda05=" + moneda05 + ", moneda02=" + moneda02 + ", moneda01=" + moneda01 + ", moneda005=" + moneda005 + '}';
+        return "Deposito{" + "billetes20=" + billetes20 + ", billetes10=" + billetes10
+                + ", billetes5=" + billetes5 + ", monedas1=" + monedas1 + ", monedas2=" + monedas2
+                + ", monedas50=" + monedas50 + ", monedas20=" + monedas20 + ", monedas10=" + monedas10
+                + ", monedas5=" + monedas5 + '}';
     }
 
 }

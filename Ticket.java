@@ -14,7 +14,7 @@ public class Ticket {
     private static int contId = 0;
 
     public Ticket(int id, String matricula, LocalDateTime fechaHora, Ubicacion ubicacion) {
-        this.id = contId++;
+        this.id = id;
         this.matricula = matricula;
         this.fechaHora = fechaHora;
         this.ubicacion = ubicacion;

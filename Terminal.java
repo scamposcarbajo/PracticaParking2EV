@@ -20,7 +20,8 @@ public class Terminal extends javax.swing.JFrame {
     public JFrame pantallaRetirar;
     public JFrame pantallaPagar;
     public Maquina app = new Maquina();
-    public Ticket ticket = new Ticket();
+    public Ticket ticketSeleccionado;
+    public Ticket ticket; 
 
     public Terminal() {
         initComponents();
@@ -144,16 +145,16 @@ public class Terminal extends javax.swing.JFrame {
         EditorPane2.setVisible(true);
         LabelPagar4.setVisible(true);
         EditorPane2.setContentType("text/html");
-        
+
         TextPagar.setSize(150, 30);
         BotonPagar.setSize(100, 30);
         EditorPane2.setSize(300, 90);
         LabelPagar4.setSize(300, 20);
 
         //AQUI FALTA QUE DIGA EL COCHE Y EL TIEMPO Y EL IMPORTE
-        EditorPane2.setText("<html><br>Vehiculo con matricula (" + ticket.getMatricula() + ")</br>"
-                + "<br>Estacionado durante (" +  ") minutos</br>"
-                + "<br>El importe correspondiente es (X)</br></html>");
+        EditorPane2.setText("<html><br>Vehiculo con matricula (" + ticketSeleccionado.getMatricula() + ")</br>"
+                + "<br>Estacionado durante (" + app.calcularTiempoTranscurrido(ticketSeleccionado)+ ") minutos</br>"
+                + "<br>El importe correspondiente es (" + app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado)) + " €)</br></html>");
         EditorPane2.setEditable(false);
         LabelPagar4.setText("Hacienda somos todos");
 
@@ -166,6 +167,18 @@ public class Terminal extends javax.swing.JFrame {
     }
 
     public boolean validoNumeros(String valido) {
+        //metodo para verificar que solo haya números en un campo de texto
+        //devuelve true si solo hay numeros, en caso contrario devuelve false
+        String texto = valido.trim().toLowerCase();
+        int validador;
+        try {
+            validador = Integer.parseInt(texto);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+        public boolean validoDouble(String valido) {
         //metodo para verificar que solo haya números en un campo de texto
         //devuelve true si solo hay numeros, en caso contrario devuelve false
         String texto = valido.trim().toLowerCase();
@@ -479,6 +492,13 @@ public class Terminal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir la matricula correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        ticket = app.asignarPlaza(app.encontrarEspacioLibre(), TextAñadirMatricula.getText().trim().toUpperCase());
+        JOptionPane.showMessageDialog(null, "Tu ticket es: " + ticket.toString() + " NO LO PIERDAS", "TICKET", JOptionPane.DEFAULT_OPTION);
+
+        ticketSeleccionado = ticket;
+        System.out.println("ticket seleccionado" + ticketSeleccionado.toString());
+
+        app.mostrarPlano();
     }//GEN-LAST:event_BotonAñadirMatriculaActionPerformed
 
     private void BotonIntroducirIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonIntroducirIdActionPerformed
@@ -487,6 +507,12 @@ public class Terminal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir el id correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
+            for (Ticket ticket2 : app.getListaTickets()) {
+                if (ticket2.getId() == Integer.parseInt(TextIntroducirId.getText().trim())) {
+                    ticketSeleccionado = ticket2;
+                }
+            }
+            System.out.println("ticket seleccionado " + ticketSeleccionado.toString());
             ventanaPagar();
         }
     }//GEN-LAST:event_BotonIntroducirIdActionPerformed
@@ -504,6 +530,8 @@ public class Terminal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir el importe correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        app.introducirDinero(TextPagar.getText().trim());
+        
     }//GEN-LAST:event_BotonPagarActionPerformed
 
     /**
