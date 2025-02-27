@@ -17,6 +17,14 @@ public class Ubicacion {
         this.plaza = plaza;
     }
 
+    public int getPlanta() {
+        return planta;
+    }
+
+    public int getPlaza() {
+        return plaza;
+    }
+
     @Override
     public String toString() {
         return "Ubicacion{" + "planta=" + planta + ", plaza=" + plaza + '}';

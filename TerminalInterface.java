@@ -10,4 +10,8 @@ package practica;
  */
 public interface TerminalInterface {
     
+    void meterCoche();
+    
+    void sacarCoche(Ticket ticket);
+    
 }

@@ -30,7 +30,7 @@ public class Terminal extends JFrame implements TerminalInterface {
             JOptionPane.showMessageDialog(this, "no hay plazas disponibles", "info", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        Ticket ticket = this.maquina.reservarPlaza(ubicacionPlaza, "123");
+        Ticket ticket = this.maquina.asignarPlaza(ubicacionPlaza, "123");
         System.out.println(ticket);
     }
 

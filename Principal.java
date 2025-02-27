@@ -10,7 +10,7 @@ package practica;
  */
 public class Principal {
 
-    private static double PRECIO_MINUTO = 0.5;
+    private static final double PRECIO_MINUTO = 0.5;
 
     /**
      * @param args the command line arguments
