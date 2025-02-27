@@ -22,8 +22,6 @@ public class Ticket {
 
     public Ticket() {
     }
-    
-    
 
     public int getId() {
         return id;
@@ -67,7 +65,7 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{" + "id=" + id + ", matricula=" + matricula + ", fechaHora=" + fechaHora + ", ubicacion=" + ubicacion + '}';
+        return "Ticket{" + "id=" + id + ", matricula=" + matricula + ", fechaHora=" + fechaHora + ubicacion + '}';
     }
 
 }

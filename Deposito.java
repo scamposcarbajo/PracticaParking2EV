@@ -28,6 +28,16 @@ public class Deposito {
         this.monedas5 = monedas5;
     }
 
+    public Deposito(int monedas1, int monedas2, int monedas50, int monedas20, int monedas10, int monedas5) {
+        this.monedas1 = monedas1;
+        this.monedas2 = monedas2;
+        this.monedas50 = monedas50;
+        this.monedas20 = monedas20;
+        this.monedas10 = monedas10;
+        this.monedas5 = monedas5;
+    }
+    
+
     public int getBilletes20() {
         return billetes20;
     }
@@ -102,7 +112,7 @@ public class Deposito {
 
     @Override
     public String toString() {
-        return "Deposito{" + "billetes20=" + billetes20 + ", billetes10=" + billetes10
+        return "{" + "billetes20=" + billetes20 + ", billetes10=" + billetes10
                 + ", billetes5=" + billetes5 + ", monedas1=" + monedas1 + ", monedas2=" + monedas2
                 + ", monedas50=" + monedas50 + ", monedas20=" + monedas20 + ", monedas10=" + monedas10
                 + ", monedas5=" + monedas5 + '}';

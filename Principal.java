@@ -15,6 +15,7 @@ public class Principal {
     /**
      * @param args the command line arguments
      */
+    //la clase principal solo tiene que crear la instancia de maquina con precio por minuto
     public static void main(String[] args) {
         Maquina maquina = new Maquina(PRECIO_MINUTO);
     }

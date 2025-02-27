@@ -21,7 +21,7 @@ public class Terminal extends javax.swing.JFrame {
     public JFrame pantallaPagar;
     public Maquina app = new Maquina();
     public Ticket ticketSeleccionado;
-    public Ticket ticket; 
+    public Ticket ticket;
 
     public Terminal() {
         initComponents();
@@ -153,7 +153,7 @@ public class Terminal extends javax.swing.JFrame {
 
         //AQUI FALTA QUE DIGA EL COCHE Y EL TIEMPO Y EL IMPORTE
         EditorPane2.setText("<html><br>Vehiculo con matricula (" + ticketSeleccionado.getMatricula() + ")</br>"
-                + "<br>Estacionado durante (" + app.calcularTiempoTranscurrido(ticketSeleccionado)+ ") minutos</br>"
+                + "<br>Estacionado durante (" + app.calcularTiempoTranscurrido(ticketSeleccionado) + ") minutos</br>"
                 + "<br>El importe correspondiente es (" + app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado)) + " €)</br></html>");
         EditorPane2.setEditable(false);
         LabelPagar4.setText("Hacienda somos todos");
@@ -170,15 +170,16 @@ public class Terminal extends javax.swing.JFrame {
         //metodo para verificar que solo haya números en un campo de texto
         //devuelve true si solo hay numeros, en caso contrario devuelve false
         String texto = valido.trim().toLowerCase();
-        int validador;
+        double validador;
         try {
-            validador = Integer.parseInt(texto);
+            validador = Double.parseDouble(texto);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
-        public boolean validoDouble(String valido) {
+
+    public boolean validoDouble(String valido) {
         //metodo para verificar que solo haya números en un campo de texto
         //devuelve true si solo hay numeros, en caso contrario devuelve false
         String texto = valido.trim().toLowerCase();
@@ -530,8 +531,13 @@ public class Terminal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir el importe correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if (app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado)) > Double.parseDouble(TextPagar.getText().trim())) {
+            JOptionPane.showMessageDialog(null, "El dinero introducido no alcanza el importe", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         app.introducirDinero(TextPagar.getText().trim());
-        
+        JOptionPane.showMessageDialog(null, "Has introducido " + TextPagar.getText().trim() + " €, la vuelta correspondiente es: " + app.devolverCambio(TextPagar.getText().trim()).toString(), "VUELTAS", JOptionPane.PLAIN_MESSAGE);
+        app.liberarPlaza(ticketSeleccionado);
     }//GEN-LAST:event_BotonPagarActionPerformed
 
     /**
