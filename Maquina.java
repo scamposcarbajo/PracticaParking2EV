@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package practica;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +15,8 @@ public class Maquina {
     private Deposito deposito;
     // el genérico es Ticket porque vamos a usar Objetos Ticket dentro
     // de la lista
-    private List<Ticket> listaTickets;
+    private List<Ticket> listaTickets = new ArrayList<>();
+    ;
     private int[][] plano;
 
     public Maquina(double precioMinuto) {
@@ -27,7 +25,7 @@ public class Maquina {
         // Maquina en su constructor solo recibe precio/minuto
         this.deposito = new Deposito();
         // no olvidar los diamantes para el genérico
-        this.listaTickets = new ArrayList<>();
+        this.listaTickets = listaTickets;
         this.plano = new int[NUM_MAX_PLANTAS][NUM_MAX_PLAZAS_POR_PLANTA];
 
     }
@@ -73,8 +71,22 @@ public class Maquina {
         LocalDateTime fechaEntrada = ticket.getFechaHora();
         LocalDateTime fechaSalida = LocalDateTime.now();
 
-        LocalDateTime tiempoTranscurrido = fechaSalida.minusMinutes((long) fechaEntrada.getMinute());
-        return tiempoTranscurrido.getMinute();
+        // calculamos duracion entre las dos fechas en minutos
+        Duration duracion = Duration.between(fechaEntrada, fechaSalida);
+        long minutosTranscurridos = duracion.toMinutes(); // minutos completos
+        long segundosTranscurridos = duracion.getSeconds() % 60; // segundos restantes
+
+        if (segundosTranscurridos > 0) {
+            minutosTranscurridos++;
+        }
+
+        return (int) minutosTranscurridos;
+    }
+
+    public double calcularDineroPagar(int minutosTranscurridos) {
+
+        double aPagar = minutosTranscurridos * precioMinuto;
+        return aPagar;
 
     }
 
@@ -142,27 +154,55 @@ public class Maquina {
 
     }
 
-    public double devolverCambio(String cambioString) {
+    public double devolverCambio(double dinero) {
 
-        double cambio = Double.parseDouble(cambioString);
-        double devolver = 0.0;
-        deposito = new Deposito();
+        double cambioRestante = dinero;  // total de cambio que se debe devolver
+        Deposito vuelta = new Deposito();  // nuevo depósito para el cambio
 
-        if (cambio > deposito.getBilletes20()) {
-            deposito.setBilletes20(deposito.getBilletes20() - 1);
-            devolver += 20.0;
+        // iteramos dependiendo del cambio a devolver
+        while (cambioRestante > 0) {
 
-        } else if (cambio > deposito.getBilletes10()) {
-            deposito.setBilletes10(deposito.getBilletes10() - 1);
-            devolver += 10.0;
+            if (cambioRestante >= 2.00 && deposito.getMonedas2() > 0) {
+                deposito.setMonedas2(deposito.getMonedas2() - 1);
+                vuelta.setMonedas2(vuelta.getMonedas2() + 1);
+                cambioRestante -= 2.00;
 
-        } else if (cambio > deposito.getBilletes5()) {
-            deposito.setBilletes5(deposito.getBilletes5() - 1);
-            devolver += 5.0;
+            } else if (cambioRestante >= 1.00 && deposito.getMonedas1() > 0) {
+                deposito.setMonedas1(deposito.getMonedas1() - 1);
+                vuelta.setMonedas1(vuelta.getMonedas1() + 1);
+                cambioRestante -= 1.00;
 
+            } else if (cambioRestante >= 0.50 && deposito.getMonedas50() > 0) {
+                deposito.setMonedas50(deposito.getMonedas50() - 1);
+                vuelta.setMonedas50(vuelta.getMonedas50() + 1);
+                cambioRestante -= 0.50;
+
+            } else if (cambioRestante >= 0.20 && deposito.getMonedas20() > 0) {
+                deposito.setMonedas20(deposito.getMonedas20() - 1);
+                vuelta.setMonedas20(vuelta.getMonedas20() + 1);
+                cambioRestante -= 0.20;
+
+            } else if (cambioRestante >= 0.10 && deposito.getMonedas10() > 0) {
+                deposito.setMonedas10(deposito.getMonedas10() - 1);
+                vuelta.setMonedas10(vuelta.getMonedas10() + 1);
+                cambioRestante -= 0.10;
+
+            } else if (cambioRestante >= 0.05 && deposito.getMonedas5() > 0) {
+                deposito.setMonedas5(deposito.getMonedas5() - 1);
+                vuelta.setMonedas5(vuelta.getMonedas5() + 1);
+                cambioRestante -= 0.05;
+
+            } else {
+                System.out.println("no hay cambio suficiente");
+                return dinero; // devolvemos el dinero sin cambios
+            }
         }
 
-        return devolver;
+        // comprobar el deposito de vuelta
+        System.out.println("contenido del depósito vuelta: " + vuelta.toString());
+
+        System.out.println("cambio devuelto correctamente");
+        return dinero - cambioRestante;  // devolvemos el total de cambio entregado
     }
 
 }
