@@ -6,8 +6,6 @@ package ClasesPrincipales;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
-import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -50,7 +48,6 @@ public class Terminal extends javax.swing.JFrame {
         tabla = new JTable(modeloTabla);
         actualizarTabla();
         System.out.println("muestro plano desde terminal");
-
         mostrarTabla();
         ventanaParquimetro();
         setLocation();
@@ -199,6 +196,7 @@ public class Terminal extends javax.swing.JFrame {
         TextIntroducirId.setSize(150, 30);
         BotonIntroducirId.setSize(100, 30);
 
+        TextIntroducirId.setText("Introduce el ID");
         jEditorPane1.setText("<html><br>Por favor introduce el id del ticket asociado a tu aparcamiento</br><br>Formato (1)</br></html>");
         jEditorPane1.setEditable(false);
         jEditorPane1.setBounds(50, 10, jEditorPane1.getWidth(), jEditorPane1.getHeight());
@@ -236,20 +234,18 @@ public class Terminal extends javax.swing.JFrame {
         EditorPane2.setSize(300, 90);
         LabelPagar4.setSize(300, 20);
 
-        //AQUI FALTA QUE DIGA EL COCHE Y EL TIEMPO Y EL IMPORTE
         EditorPane2.setText("<html><br>Vehiculo con matricula (" + ticketSeleccionado.getMatricula() + ")</br>"
                 + "<br>Estacionado durante (" + app.calcularTiempoTranscurrido(ticketSeleccionado) + ") minutos</br>"
                 + "<br>El importe correspondiente es (" + app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado)) + " €)</br></html>");
         EditorPane2.setEditable(false);
+        TextPagar.setText("Paga aqui");
         LabelPagar4.setText("Hacienda somos todos");
 
         EditorPane2.setBounds(20, 10, EditorPane2.getWidth(), EditorPane2.getHeight());
         TextPagar.setBounds(20, 360, TextPagar.getWidth(), TextPagar.getHeight());
         BotonPagar.setBounds(170, 360, BotonPagar.getWidth(), BotonPagar.getHeight());
         LabelPagar4.setBounds(10, 430, LabelPagar4.getWidth(), LabelPagar4.getHeight());
-
         actualizarTabla();
-
         pantallaPagar.setLocationRelativeTo(null);
     }
 
@@ -644,7 +640,10 @@ public class Terminal extends javax.swing.JFrame {
 
         app.mostrarPlano();
         actualizarTabla();
-
+        
+        
+        //LabelAparcamiento.setVisible(false);
+        pantallaAparcar.dispose();
     }//GEN-LAST:event_BotonAñadirMatriculaActionPerformed
 
     private void BotonIntroducirIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonIntroducirIdActionPerformed
@@ -653,13 +652,21 @@ public class Terminal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir el id correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
+            int cont = app.getListaTickets().size();
+            int tamanio = app.getListaTickets().size();
             for (Ticket ticket2 : app.getListaTickets()) {
                 if (ticket2.getId() == Integer.parseInt(TextIntroducirId.getText().trim())) {
                     ticketSeleccionado = ticket2;
+                    cont--;
                 }
             }
+            if (cont == tamanio) {
+                JOptionPane.showMessageDialog(null, "No existe coche con ese ID en este parking", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }else{
+               ventanaPagar(); 
+            }
             System.out.println("ticket seleccionado " + ticketSeleccionado.toString());
-            ventanaPagar();
+            
         }
     }//GEN-LAST:event_BotonIntroducirIdActionPerformed
 
@@ -670,7 +677,6 @@ public class Terminal extends javax.swing.JFrame {
 
     private void BotonPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonPagarActionPerformed
         // TODO add your handling code here:
-
         if (!validoNulos(TextPagar.getText().trim()) || !validoNumeros(TextPagar.getText().trim())) {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir el importe correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
@@ -679,10 +685,13 @@ public class Terminal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "El dinero introducido no alcanza el importe", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        app.devolverCambio(TextPagar.getText().trim());
-        JOptionPane.showMessageDialog(null, "Has introducido " + TextPagar.getText().trim() + " €, la vuelta correspondiente es: " + app.devolverCambio(TextPagar.getText().trim()).toString(), "VUELTAS", JOptionPane.PLAIN_MESSAGE);
+        System.out.println("Deposito antes de pagar: " + app.deposito);
+        Double cambio = (Double.parseDouble(TextPagar.getText().trim())) - app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado));
+        JOptionPane.showMessageDialog(null, "Has introducido " + TextPagar.getText().trim() + " €, la vuelta correspondiente es: " + app.devolverCambio(String.valueOf(cambio)).toString(), "VUELTAS", JOptionPane.PLAIN_MESSAGE);
+        app.introducirDinero(TextPagar.getText().trim());
         app.liberarPlaza(ticketSeleccionado);
         actualizarTabla();
+        System.out.println("Deposito despues de pagar: " + app.deposito);
     }//GEN-LAST:event_BotonPagarActionPerformed
 
     /**

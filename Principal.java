@@ -19,5 +19,4 @@ public class Principal {
     public static void main(String[] args) {
         Maquina maquina = new Maquina(PRECIO_MINUTO);
     }
-
 }

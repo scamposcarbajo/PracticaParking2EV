@@ -14,7 +14,7 @@ public class Maquina {
     private static final int NUM_MAX_PLAZAS_POR_PLANTA = 20;
     private static int asignadorClave = 0;//asignar el id del ticket PREGUNTAR
     private static double precioMinuto;
-    private Deposito deposito = new Deposito(100, 100, 100, 100, 100, 100, 100, 100, 100);
+    protected Deposito deposito = new Deposito(100, 100, 100, 100, 100, 100, 100, 100, 100);
     // el genérico es Ticket porque vamos a usar Objetos Ticket dentro
     // de la lista
     private ArrayList<Ticket> listaTickets = new ArrayList<>();
@@ -139,40 +139,31 @@ public class Maquina {
             if (dinero >= 20) {
                 deposito.setBilletes20(deposito.getBilletes20() + 1);
                 prueba.setBilletes20(prueba.getBilletes20() + 1);
-                dinero -= 20.0;
-                System.out.println("introducido: billete de 20");
+                dinero = dinero - 20.0;
             } else if (dinero >= 10) {
                 deposito.setBilletes10(deposito.getBilletes10() + 1);
-                dinero -= 10.0;
-                System.out.println("introducido: billete de 10");
+                dinero = dinero - 10.0;
             } else if (dinero >= 5) {
                 deposito.setBilletes5(deposito.getBilletes5() + 1);
-                dinero -= 5.0;
-                System.out.println("introducido: billete de 5");
+                dinero = dinero - 5.0;
             } else if (dinero >= 2) {
                 deposito.setMonedas2(deposito.getMonedas2() + 1);
-                dinero -= 2.0;
-                System.out.println("introducido: moneda de 2");
+                dinero = dinero - 2.0;
             } else if (dinero >= 1) {
                 deposito.setMonedas1(deposito.getMonedas1() + 1);
-                dinero -= 1.0;
-                System.out.println("introducido: moneda de 1");
+                dinero = dinero - 1.0;
             } else if (dinero >= 0.5) {
                 deposito.setMonedas50(deposito.getMonedas50() + 1);
-                dinero -= 0.5;
-                System.out.println("introducido: moneda de 0.50");
+                dinero = dinero - 0.5;
             } else if (dinero >= 0.2) {
                 deposito.setMonedas20(deposito.getMonedas20() + 1);
-                dinero -= 0.2;
-                System.out.println("introducido: moneda de 0.20");
+                dinero = dinero - 0.2;
             } else if (dinero >= 0.1) {
                 deposito.setMonedas10(deposito.getMonedas10() + 1);
-                dinero -= 0.1;
-                System.out.println("introducido: moneda de 0.10");
+                dinero = dinero - 0.1;
             } else if (dinero >= 0.05) {
                 deposito.setMonedas5(deposito.getMonedas5() + 1);
-                dinero -= 0.05;
-                System.out.println("introducido: moneda de 0.05");
+                dinero = dinero - 0.05;
             }
         }
     }
@@ -185,15 +176,15 @@ public class Maquina {
             if (dinero >= 2 && deposito.getMonedas2() > 0) {
                 deposito.setMonedas2(deposito.getMonedas2() - 1);
                 vueltas.setMonedas2(vueltas.getMonedas2() + 1);
-                dinero -= 2.0;
+                dinero = dinero - 2.0;
             } else if (dinero >= 1 && deposito.getMonedas1()> 0) {
                 deposito.setMonedas1(deposito.getMonedas1() - 1);
                 vueltas.setMonedas1(vueltas.getMonedas1() + 1);
-                dinero -= 1.0;
+                dinero = dinero - 1.0;
             } else if (dinero >= 0.5 && deposito.getMonedas50()> 0) {
                 deposito.setMonedas50(deposito.getMonedas50() - 1);
                 vueltas.setMonedas50(vueltas.getMonedas50() + 1);
-                dinero -= 0.5;
+                dinero = dinero - 0.5;
             } else if (dinero >= 0.2 && deposito.getMonedas20()> 0) {
                 deposito.setMonedas20(deposito.getMonedas20() - 1);
                 vueltas.setMonedas20(vueltas.getMonedas20() + 1);
