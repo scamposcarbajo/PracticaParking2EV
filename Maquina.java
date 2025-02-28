@@ -19,7 +19,9 @@ public class Maquina {
     // de la lista
     private ArrayList<Ticket> listaTickets = new ArrayList<>();
 
-    private Integer[][] plano = new Integer[NUM_MAX_PLANTAS][NUM_MAX_PLAZAS_POR_PLANTA];
+    private static Integer[][] plano = rellenarPlano();
+
+    private Terminal terminal;
 
     //constructor principal con precio por minuto creado desde PRINCIPAL
     public Maquina(double precioMinuto) {
@@ -29,9 +31,10 @@ public class Maquina {
 
         // no olvidar los diamantes para el genérico
         System.out.println("constructor normal");
+
         rellenarPlano();
         mostrarPlano();
-        Terminal terminal = new Terminal();
+        terminal = new Terminal();
         terminal.setVisible(true);
     }
 
@@ -49,12 +52,14 @@ public class Maquina {
     }
 
     //terminado
-    public void rellenarPlano() {
+    public static Integer[][] rellenarPlano() {
+        plano = new Integer[NUM_MAX_PLANTAS][NUM_MAX_PLAZAS_POR_PLANTA];
         for (int i = 0; i < plano.length; i++) {
             for (int j = 0; j < plano[i].length; j++) {
                 plano[i][j] = 0;
             }
         }
+        return plano;
     }
 
     //terminado
@@ -69,9 +74,9 @@ public class Maquina {
 
     //terminado
     public Ubicacion encontrarEspacioLibre() {
-        for (int i = 0; i < NUM_MAX_PLANTAS; i++) {
-            for (int j = 0; j < NUM_MAX_PLAZAS_POR_PLANTA; j++) {
-                if (this.plano[i][j] == 0) {
+        for (int i = 0; i < plano.length; i++) {
+            for (int j = 0; j < plano[i].length; j++) {
+                if (plano[i][j] == 0) {
                     // significa que esta posición está vacía
                     Ubicacion ubicacion = new Ubicacion(i, j);
                     return ubicacion;
@@ -177,36 +182,30 @@ public class Maquina {
         double dinero = Double.parseDouble(cambio);
         Deposito vueltas = new Deposito(0, 0, 0, 0, 0, 0);
         while (dinero > 0) {
-            if (dinero >= 2) {
+            if (dinero >= 2 && deposito.getMonedas2() > 0) {
                 deposito.setMonedas2(deposito.getMonedas2() - 1);
                 vueltas.setMonedas2(vueltas.getMonedas2() + 1);
                 dinero -= 2.0;
-                System.out.println("introducido: moneda de 2");
-            } else if (dinero >= 1) {
+            } else if (dinero >= 1 && deposito.getMonedas1()> 0) {
                 deposito.setMonedas1(deposito.getMonedas1() - 1);
                 vueltas.setMonedas1(vueltas.getMonedas1() + 1);
                 dinero -= 1.0;
-                System.out.println("introducido: moneda de 1");
-            } else if (dinero >= 0.5) {
+            } else if (dinero >= 0.5 && deposito.getMonedas50()> 0) {
                 deposito.setMonedas50(deposito.getMonedas50() - 1);
                 vueltas.setMonedas50(vueltas.getMonedas50() + 1);
                 dinero -= 0.5;
-                System.out.println("introducido: moneda de 0.50");
-            } else if (dinero >= 0.2) {
+            } else if (dinero >= 0.2 && deposito.getMonedas20()> 0) {
                 deposito.setMonedas20(deposito.getMonedas20() - 1);
                 vueltas.setMonedas20(vueltas.getMonedas20() + 1);
                 dinero -= 0.2;
-                System.out.println("introducido: moneda de 0.20");
-            } else if (dinero >= 0.1) {
+            } else if (dinero >= 0.1 && deposito.getMonedas10()> 0) {
                 deposito.setMonedas10(deposito.getMonedas10() - 1);
                 vueltas.setMonedas10(vueltas.getMonedas10() + 1);
                 dinero -= 0.1;
-                System.out.println("introducido: moneda de 0.10");
-            } else if (dinero >= 0.05) {
+            } else if (dinero >= 0.05 && deposito.getMonedas5()> 0) {
                 deposito.setMonedas5(deposito.getMonedas5() - 1);
                 vueltas.setMonedas5(vueltas.getMonedas5() + 1);
                 dinero -= 0.05;
-                System.out.println("introducido: moneda de 0.05");
             }
         }
         System.out.println("Vueltas: " + vueltas.toString());

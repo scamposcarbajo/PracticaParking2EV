@@ -4,11 +4,14 @@
  */
 package ClasesPrincipales;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -28,8 +31,6 @@ public class Terminal extends javax.swing.JFrame {
     public Ticket ticket;
     private JTable tabla;//control para mostrar la matriz
     private DefaultTableModel modeloTabla;//contenedor de la matriz de enteros
-    private String[] nombresColumnas;//titulos de las columnas de la tabla
-    private Integer[][] matrizPlano = app.getPlano();
 
     public Terminal() {
         initComponents();
@@ -42,12 +43,69 @@ public class Terminal extends javax.swing.JFrame {
         TextPagar.setVisible(false);
         BotonPagar.setVisible(false);
         LabelPagar4.setVisible(false);
-        ScrollTabla.setLayout(null);
-        ScrollTabla.setVisible(false);
+
+        ScrollTabla.setVisible(true);
         this.setResizable(false);
+        modeloTabla = new DefaultTableModel();
+        tabla = new JTable(modeloTabla);
+        actualizarTabla();
+        System.out.println("muestro plano desde terminal");
+
         mostrarTabla();
         ventanaParquimetro();
         setLocation();
+    }
+
+    //metodo para actualizar la matriz basado en la matriz producida en maquina 
+    public int indiceColumnaActual = 0;
+
+    public void actualizarTabla() {
+        // Obtener la nueva matriz de la otra clase
+        Integer[][] nuevaMatriz = app.getPlano();
+
+        // Limpiar el modelo de la tabla
+        modeloTabla.setRowCount(0);
+        modeloTabla.setColumnCount(0);
+
+        // Número de columnas a mostrar por bloque (10 columnas por fila)
+        int columnasPorFila = 10;
+
+        // Número total de columnas por planta (20 columnas por planta)
+        int totalColumnasPorPlanta = 20;
+
+        // Establecer las columnas que vamos a mostrar (en bloques de 10)
+        for (int i = 0; i < columnasPorFila; i++) {
+            modeloTabla.addColumn("Columna " + (i + 1));
+        }
+
+        // Contador de filas y añadir las filas con separación
+        int contadorFilas = 0;
+
+        for (int planta = 0; planta < nuevaMatriz.length; planta++) {
+            Integer[] filaPlanta = nuevaMatriz[planta];
+
+            // Mostrar las dos filas de 10 columnas cada una por cada planta
+            for (int i = 0; i < 2; i++) {
+                Object[] rowData = new Object[columnasPorFila];
+
+                // Rellenar los 10 primeros o últimos valores de la planta (dependiendo de i)
+                for (int j = 0; j < columnasPorFila; j++) {
+                    rowData[j] = filaPlanta[i * columnasPorFila + j];
+                }
+
+                modeloTabla.addRow(rowData);
+                contadorFilas++;
+
+                // Insertar una fila vacía cada 2 filas de datos
+                if (contadorFilas % 2 == 0) {
+                    Object[] filaVacia = new Object[columnasPorFila];
+                    for (int k = 0; k < filaVacia.length; k++) {
+                        filaVacia[k] = "";  // Deja la fila vacía
+                    }
+                    modeloTabla.addRow(filaVacia);
+                }
+            }
+        }
     }
 
     public void setLocation() {
@@ -71,13 +129,14 @@ public class Terminal extends javax.swing.JFrame {
         BotonRetirarCoche.setSize(250, 40);
 
         ScrollTabla.setSize(237, 175);
-        tabla.setSize(ScrollTabla.getWidth(), ScrollTabla.getHeight());
+        //tabla.setSize(237, 175);
 
         BotonAparcarCoche.setBounds(50, 500, BotonAparcarCoche.getWidth(), BotonAparcarCoche.getHeight());
         BotonRetirarCoche.setBounds(50, 550, BotonRetirarCoche.getWidth(), BotonRetirarCoche.getHeight());
 
         ScrollTabla.setBounds(56, 272, ScrollTabla.getWidth(), ScrollTabla.getHeight());
         ScrollTabla.setVisible(true);
+        actualizarTabla();
         mostrarTabla();
     }
 
@@ -108,6 +167,8 @@ public class Terminal extends javax.swing.JFrame {
         LabelAñadirMatricula.setBounds(30, 20, LabelAñadirMatricula.getWidth(), LabelAñadirMatricula.getHeight());
         TextAñadirMatricula.setBounds(100, 240, TextAñadirMatricula.getWidth(), TextAñadirMatricula.getHeight());
         BotonAñadirMatricula.setBounds(300, 240, BotonAñadirMatricula.getWidth(), BotonAñadirMatricula.getHeight());
+
+        actualizarTabla();
 
         pantallaAparcar.setLocationRelativeTo(null);
 
@@ -143,6 +204,8 @@ public class Terminal extends javax.swing.JFrame {
         jEditorPane1.setBounds(50, 10, jEditorPane1.getWidth(), jEditorPane1.getHeight());
         TextIntroducirId.setBounds(180, 250, TextIntroducirId.getWidth(), TextIntroducirId.getHeight());
         BotonIntroducirId.setBounds(330, 250, BotonIntroducirId.getWidth(), BotonIntroducirId.getHeight());
+
+        actualizarTabla();
 
         pantallaRetirar.setLocationRelativeTo(null);
     }
@@ -184,6 +247,8 @@ public class Terminal extends javax.swing.JFrame {
         TextPagar.setBounds(20, 360, TextPagar.getWidth(), TextPagar.getHeight());
         BotonPagar.setBounds(170, 360, BotonPagar.getWidth(), BotonPagar.getHeight());
         LabelPagar4.setBounds(10, 430, LabelPagar4.getWidth(), LabelPagar4.getHeight());
+
+        actualizarTabla();
 
         pantallaPagar.setLocationRelativeTo(null);
     }
@@ -232,20 +297,51 @@ public class Terminal extends javax.swing.JFrame {
         return valido.matches("\\d{4}-[a-zA-Z]{3}");
     }
 
+    //muestra la tabla con el plano del parking
     private void mostrarTabla() {
-        //configuramos los titulos de las columnas del jtable
-        nombresColumnas = new String[matrizPlano[0].length];
-        Arrays.fill(nombresColumnas, "");
-        //creamos el modelo de datos para el JTable
-        modeloTabla = new DefaultTableModel(matrizPlano, nombresColumnas);
         //creamos el JTable con el modelo
         tabla = new JTable(modeloTabla);
+        tabla.setSize(ScrollTabla.getWidth(), ScrollTabla.getHeight());
+        tabla.setDefaultRenderer(Object.class, new ColorCeldaRenderer());
         //ocultamos los titulos de las columnas
         tabla.getTableHeader().setVisible(false);
-        tabla.getTableHeader().setPreferredSize(new Dimension(0, 0));
+
         //damos al scroll el JTable para que se vea
         this.ScrollTabla.setViewportView(tabla);
         this.repaint();
+    }
+
+    //NO SE QUE HACE ESTO PERO CAMBIA LOS COLORES NO TOCAR
+    static class ColorCeldaRenderer extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value,
+                boolean isSelected, boolean hasFocus, int row, int column) {
+            Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            if (value == null) {
+                cell.setBackground(Color.WHITE);
+                cell.setForeground(Color.BLACK);
+                return cell;
+            }
+
+            // Convertir el valor a número
+            try {
+                int numero = Integer.parseInt(value.toString());
+                if (numero == 0) {
+                    cell.setBackground(Color.GREEN);  // 📌 Rojo si es 0
+                    cell.setForeground(Color.WHITE);
+                } else {
+                    cell.setBackground(Color.RED); // 📌 Verde si NO es 0
+                    cell.setForeground(Color.BLACK);
+                }
+            } catch (NumberFormatException e) {
+                cell.setBackground(Color.WHITE); // Si no es número, fondo blanco
+                cell.setForeground(Color.BLACK);
+            }
+
+            return cell;
+        }
     }
 
     /**
@@ -547,6 +643,8 @@ public class Terminal extends javax.swing.JFrame {
         System.out.println("ticket seleccionado" + ticketSeleccionado.toString());
 
         app.mostrarPlano();
+        actualizarTabla();
+
     }//GEN-LAST:event_BotonAñadirMatriculaActionPerformed
 
     private void BotonIntroducirIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonIntroducirIdActionPerformed
@@ -573,7 +671,6 @@ public class Terminal extends javax.swing.JFrame {
     private void BotonPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonPagarActionPerformed
         // TODO add your handling code here:
 
-        //AQUI FALTA QUE SI METE MENOS DINERO QUE EL QUE TIENE QUE PAGAR DIGA ALGO TAMBIEN
         if (!validoNulos(TextPagar.getText().trim()) || !validoNumeros(TextPagar.getText().trim())) {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir el importe correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
@@ -582,9 +679,10 @@ public class Terminal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "El dinero introducido no alcanza el importe", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        app.introducirDinero(TextPagar.getText().trim());
+        app.devolverCambio(TextPagar.getText().trim());
         JOptionPane.showMessageDialog(null, "Has introducido " + TextPagar.getText().trim() + " €, la vuelta correspondiente es: " + app.devolverCambio(TextPagar.getText().trim()).toString(), "VUELTAS", JOptionPane.PLAIN_MESSAGE);
         app.liberarPlaza(ticketSeleccionado);
+        actualizarTabla();
     }//GEN-LAST:event_BotonPagarActionPerformed
 
     /**
