@@ -60,21 +60,29 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="LabelRetirarCoche" min="-2" pref="41" max="-2" attributes="0"/>
-                          <Component id="BotonPagar" min="-2" pref="57" max="-2" attributes="0"/>
-                          <Component id="TextPagar" min="-2" pref="74" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="LabelPagar3" min="-2" pref="41" max="-2" attributes="0"/>
-                                  <Component id="LabelPagar4" min="-2" pref="41" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="LabelRetirarCoche" min="-2" pref="41" max="-2" attributes="0"/>
+                                  <Component id="BotonPagar" min="-2" pref="57" max="-2" attributes="0"/>
+                                  <Component id="TextPagar" min="-2" pref="74" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="211" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="LabelPagar3" min="-2" pref="41" max="-2" attributes="0"/>
+                                          <Component id="LabelPagar4" min="-2" pref="41" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="211" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="LabelAparcamiento" alignment="1" min="-2" pref="41" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <Component id="LabelAparcamiento" alignment="1" min="-2" pref="41" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="ScrollTabla" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="304" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -98,8 +106,16 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
-              <Component id="LabelPlaceHolderTabla" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="149" max="-2" attributes="0"/>
+                      <Component id="LabelPlaceHolderTabla" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
+                      <Component id="ScrollTabla" min="-2" pref="100" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
               <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
               <Component id="LabelIntroducirId" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
@@ -399,6 +415,10 @@
           </Properties>
         </Component>
       </SubComponents>
+    </Container>
+    <Container class="javax.swing.JScrollPane" name="ScrollTabla">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
     </Container>
   </SubComponents>
 </Form>

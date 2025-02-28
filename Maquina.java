@@ -19,7 +19,7 @@ public class Maquina {
     // de la lista
     private ArrayList<Ticket> listaTickets = new ArrayList<>();
 
-    private int[][] plano = new int[NUM_MAX_PLANTAS][NUM_MAX_PLAZAS_POR_PLANTA];
+    private Integer[][] plano = new Integer[NUM_MAX_PLANTAS][NUM_MAX_PLAZAS_POR_PLANTA];
 
     //constructor principal con precio por minuto creado desde PRINCIPAL
     public Maquina(double precioMinuto) {
@@ -44,7 +44,7 @@ public class Maquina {
         return listaTickets;
     }
 
-    public int[][] getPlano() {
+    public Integer[][] getPlano() {
         return plano;
     }
 
@@ -173,7 +173,6 @@ public class Maquina {
     }
 
     //terminado
-    
     public Deposito devolverCambio(String cambio) {
         double dinero = Double.parseDouble(cambio);
         Deposito vueltas = new Deposito(0, 0, 0, 0, 0, 0);
@@ -213,6 +212,5 @@ public class Maquina {
         System.out.println("Vueltas: " + vueltas.toString());
         return vueltas;
     }
-    
-    
+
 }

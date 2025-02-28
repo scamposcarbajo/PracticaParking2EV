@@ -4,8 +4,12 @@
  */
 package ClasesPrincipales;
 
+import java.awt.Dimension;
+import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,6 +26,10 @@ public class Terminal extends javax.swing.JFrame {
     public Maquina app = new Maquina();
     public Ticket ticketSeleccionado;
     public Ticket ticket;
+    private JTable tabla;//control para mostrar la matriz
+    private DefaultTableModel modeloTabla;//contenedor de la matriz de enteros
+    private String[] nombresColumnas;//titulos de las columnas de la tabla
+    private Integer[][] matrizPlano = app.getPlano();
 
     public Terminal() {
         initComponents();
@@ -34,6 +42,10 @@ public class Terminal extends javax.swing.JFrame {
         TextPagar.setVisible(false);
         BotonPagar.setVisible(false);
         LabelPagar4.setVisible(false);
+        ScrollTabla.setLayout(null);
+        ScrollTabla.setVisible(false);
+        this.setResizable(false);
+        mostrarTabla();
         ventanaParquimetro();
         setLocation();
     }
@@ -43,20 +55,30 @@ public class Terminal extends javax.swing.JFrame {
     }
 
     public void ventanaParquimetro() {
+        //ARREGLAR LO DE LA PUTA TABLA
         //ventana principal del parquimetro
+        setSize(350, 720);
         LabelParquimetroPrincipal.setSize(350, 720);
+        //ScrollTabla.setLayout(null);
         setContentPane(LabelParquimetroPrincipal);
+        //setResizable(false);
         LabelParquimetroPrincipal.add(BotonAparcarCoche);
         LabelParquimetroPrincipal.add(BotonRetirarCoche);
-        LabelParquimetroPrincipal.add(LabelPlaceHolderTabla);
+
+        LabelParquimetroPrincipal.add(ScrollTabla);
 
         BotonAparcarCoche.setSize(250, 40);
         BotonRetirarCoche.setSize(250, 40);
-        LabelPlaceHolderTabla.setSize(237, 175);
+
+        ScrollTabla.setSize(237, 175);
+        tabla.setSize(ScrollTabla.getWidth(), ScrollTabla.getHeight());
 
         BotonAparcarCoche.setBounds(50, 500, BotonAparcarCoche.getWidth(), BotonAparcarCoche.getHeight());
         BotonRetirarCoche.setBounds(50, 550, BotonRetirarCoche.getWidth(), BotonRetirarCoche.getHeight());
-        LabelPlaceHolderTabla.setBounds(56, 272, LabelPlaceHolderTabla.getWidth(), LabelPlaceHolderTabla.getHeight());
+
+        ScrollTabla.setBounds(56, 272, ScrollTabla.getWidth(), ScrollTabla.getHeight());
+        ScrollTabla.setVisible(true);
+        mostrarTabla();
     }
 
     public void ventanaAparcar() {
@@ -210,6 +232,22 @@ public class Terminal extends javax.swing.JFrame {
         return valido.matches("\\d{4}-[a-zA-Z]{3}");
     }
 
+    private void mostrarTabla() {
+        //configuramos los titulos de las columnas del jtable
+        nombresColumnas = new String[matrizPlano[0].length];
+        Arrays.fill(nombresColumnas, "");
+        //creamos el modelo de datos para el JTable
+        modeloTabla = new DefaultTableModel(matrizPlano, nombresColumnas);
+        //creamos el JTable con el modelo
+        tabla = new JTable(modeloTabla);
+        //ocultamos los titulos de las columnas
+        tabla.getTableHeader().setVisible(false);
+        tabla.getTableHeader().setPreferredSize(new Dimension(0, 0));
+        //damos al scroll el JTable para que se vea
+        this.ScrollTabla.setViewportView(tabla);
+        this.repaint();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -242,11 +280,10 @@ public class Terminal extends javax.swing.JFrame {
         jEditorPane1 = new javax.swing.JEditorPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         EditorPane2 = new javax.swing.JEditorPane();
+        ScrollTabla = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(365, 755));
         setMinimumSize(new java.awt.Dimension(365, 755));
-        setPreferredSize(new java.awt.Dimension(365, 755));
         setResizable(false);
 
         LabelParquimetroPrincipal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourcesFotos/Parquimetro_Parking3(350x720).png"))); // NOI18N
@@ -389,18 +426,23 @@ public class Terminal extends javax.swing.JFrame {
                                 .addComponent(LabelPagar2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(LabelRetirarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BotonPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(LabelRetirarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BotonPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(36, 36, 36)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(LabelPagar3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(LabelPagar4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(211, 211, 211))
-                            .addComponent(LabelAparcamiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(LabelPagar3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(LabelPagar4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(211, 211, 211))
+                                    .addComponent(LabelAparcamiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(304, 304, 304)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -415,8 +457,13 @@ public class Terminal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(149, 149, 149)
-                .addComponent(LabelPlaceHolderTabla)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(149, 149, 149)
+                        .addComponent(LabelPlaceHolderTabla))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(78, 78, 78)
                 .addComponent(LabelIntroducirId)
                 .addGap(69, 69, 69)
@@ -593,6 +640,7 @@ public class Terminal extends javax.swing.JFrame {
     private javax.swing.JLabel LabelParquimetroPrincipal;
     private javax.swing.JLabel LabelPlaceHolderTabla;
     private javax.swing.JLabel LabelRetirarCoche;
+    private javax.swing.JScrollPane ScrollTabla;
     private javax.swing.JTextField TextAñadirMatricula;
     private javax.swing.JTextField TextIntroducirId;
     private javax.swing.JTextField TextPagar;
