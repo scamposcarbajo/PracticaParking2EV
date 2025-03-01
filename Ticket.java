@@ -13,12 +13,14 @@ public class Ticket {
     private String matricula;
     private LocalDateTime fechaHora;
     private Ubicacion ubicacion;
-
+    private boolean activo;
+    
     public Ticket(int id, String matricula, LocalDateTime fechaHora, Ubicacion ubicacion) {
         this.id = id;
         this.matricula = matricula;
         this.fechaHora = fechaHora;
         this.ubicacion = ubicacion;
+        this.activo = true;
     }
 
     public int getId() {
@@ -53,33 +55,40 @@ public class Ticket {
         this.ubicacion = ubicacion;
     }
 
-    
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public boolean desactivar() {
+        this.activo = false;
+        return this.activo;
+    }
     
     @Override
     public String toString() {
         return "Ticket{" + "id=" + id + ", matricula=" + matricula + ", fechaHora=" + fechaHora + ", ubicacion=" + ubicacion + '}';
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Ticket other = (Ticket) obj;
-        return this.id == other.id;
-    }
+//    @Override
+//    public int hashCode() {
+//        int hash = 3;
+//        return hash;
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (this == obj) {
+//            return true;
+//        }
+//        if (obj == null) {
+//            return false;
+//        }
+//        if (getClass() != obj.getClass()) {
+//            return false;
+//        }
+//        final Ticket other = (Ticket) obj;
+//        return this.id == other.id;
+//    }
     
     
     
