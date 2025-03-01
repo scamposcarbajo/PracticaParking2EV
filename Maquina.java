@@ -7,6 +7,7 @@ package ClasesPrincipales;
 import java.time.LocalDateTime;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Maquina {
 
@@ -14,7 +15,7 @@ public class Maquina {
     private static final int NUM_MAX_PLAZAS_POR_PLANTA = 20;
     private static int asignadorClave = 0;//asignar el id del ticket PREGUNTAR
     private static double precioMinuto;
-    protected Deposito deposito = new Deposito(100, 100, 100, 100, 100, 100, 100, 100, 100);
+    protected Deposito deposito = new Deposito();
     // el genérico es Ticket porque vamos a usar Objetos Ticket dentro
     // de la lista
     private ArrayList<Ticket> listaTickets = new ArrayList<>();
@@ -131,76 +132,21 @@ public class Maquina {
         return (double) (tiempo * this.precioMinuto);
     }
 
-    //terminado
-    public void introducirDinero(String dineroIntroducido) {
-        double dinero = Double.parseDouble(dineroIntroducido);
-        Deposito prueba = new Deposito(0, 0, 0, 0, 0, 0, 0, 0, 0);
-        while (dinero > 0) {
-            if (dinero >= 20) {
-                deposito.setBilletes20(deposito.getBilletes20() + 1);
-                prueba.setBilletes20(prueba.getBilletes20() + 1);
-                dinero = dinero - 20.0;
-            } else if (dinero >= 10) {
-                deposito.setBilletes10(deposito.getBilletes10() + 1);
-                dinero = dinero - 10.0;
-            } else if (dinero >= 5) {
-                deposito.setBilletes5(deposito.getBilletes5() + 1);
-                dinero = dinero - 5.0;
-            } else if (dinero >= 2) {
-                deposito.setMonedas2(deposito.getMonedas2() + 1);
-                dinero = dinero - 2.0;
-            } else if (dinero >= 1) {
-                deposito.setMonedas1(deposito.getMonedas1() + 1);
-                dinero = dinero - 1.0;
-            } else if (dinero >= 0.5) {
-                deposito.setMonedas50(deposito.getMonedas50() + 1);
-                dinero = dinero - 0.5;
-            } else if (dinero >= 0.2) {
-                deposito.setMonedas20(deposito.getMonedas20() + 1);
-                dinero = dinero - 0.2;
-            } else if (dinero >= 0.1) {
-                deposito.setMonedas10(deposito.getMonedas10() + 1);
-                dinero = dinero - 0.1;
-            } else if (dinero >= 0.05) {
-                deposito.setMonedas5(deposito.getMonedas5() + 1);
-                dinero = dinero - 0.05;
+    /**
+     * método para verificar que no se pueda introducir un coche con una
+     * matrícula que ya se encuentre en el aparcamiento
+     *
+     * @param matricula matricula a comprobar
+     */
+    public boolean comprobarMatricula(String matricula) {
+        for (Ticket ticket : listaTickets) {
+            if (ticket.getMatricula().equals(matricula) && ticket.isActivo()) {
+                
+                return false;
+            } else {
+
             }
         }
+        return true;
     }
-
-    //terminado
-    public Deposito devolverCambio(String cambio) {
-        double dinero = Double.parseDouble(cambio);
-        Deposito vueltas = new Deposito(0, 0, 0, 0, 0, 0);
-        while (dinero > 0) {
-            if (dinero >= 2 && deposito.getMonedas2() > 0) {
-                deposito.setMonedas2(deposito.getMonedas2() - 1);
-                vueltas.setMonedas2(vueltas.getMonedas2() + 1);
-                dinero = dinero - 2.0;
-            } else if (dinero >= 1 && deposito.getMonedas1()> 0) {
-                deposito.setMonedas1(deposito.getMonedas1() - 1);
-                vueltas.setMonedas1(vueltas.getMonedas1() + 1);
-                dinero = dinero - 1.0;
-            } else if (dinero >= 0.5 && deposito.getMonedas50()> 0) {
-                deposito.setMonedas50(deposito.getMonedas50() - 1);
-                vueltas.setMonedas50(vueltas.getMonedas50() + 1);
-                dinero = dinero - 0.5;
-            } else if (dinero >= 0.2 && deposito.getMonedas20()> 0) {
-                deposito.setMonedas20(deposito.getMonedas20() - 1);
-                vueltas.setMonedas20(vueltas.getMonedas20() + 1);
-                dinero -= 0.2;
-            } else if (dinero >= 0.1 && deposito.getMonedas10()> 0) {
-                deposito.setMonedas10(deposito.getMonedas10() - 1);
-                vueltas.setMonedas10(vueltas.getMonedas10() + 1);
-                dinero -= 0.1;
-            } else if (dinero >= 0.05 && deposito.getMonedas5()> 0) {
-                deposito.setMonedas5(deposito.getMonedas5() - 1);
-                vueltas.setMonedas5(vueltas.getMonedas5() + 1);
-                dinero -= 0.05;
-            }
-        }
-        System.out.println("Vueltas: " + vueltas.toString());
-        return vueltas;
-    }
-
 }

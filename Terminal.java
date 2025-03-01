@@ -21,14 +21,15 @@ public class Terminal extends javax.swing.JFrame {
     /**
      * Creates new form Terminal
      */
-    public JFrame pantallaAparcar;
-    public JFrame pantallaRetirar;
-    public JFrame pantallaPagar;
-    public Maquina app = new Maquina();
-    public Ticket ticketSeleccionado;
-    public Ticket ticket;
+    private JFrame pantallaAparcar;
+    private JFrame pantallaRetirar;
+    private JFrame pantallaPagar;
+    private Maquina app = new Maquina();
+    private Ticket ticketSeleccionado;
+    private Ticket ticket;
     private JTable tabla;//control para mostrar la matriz
     private DefaultTableModel modeloTabla;//contenedor de la matriz de enteros
+    private Deposito deposito = new Deposito();
 
     public Terminal() {
         initComponents();
@@ -47,8 +48,8 @@ public class Terminal extends javax.swing.JFrame {
         modeloTabla = new DefaultTableModel();
         tabla = new JTable(modeloTabla);
         actualizarTabla();
-        System.out.println("muestro plano desde terminal");
         mostrarTabla();
+
         ventanaParquimetro();
         setLocation();
     }
@@ -140,6 +141,7 @@ public class Terminal extends javax.swing.JFrame {
     public void ventanaAparcar() {
         //ventana para aparcar un coche en el parking
         pantallaAparcar = new JFrame();
+
         pantallaAparcar.setLayout(null);
         pantallaAparcar.setResizable(false);
         pantallaAparcar.setVisible(true);
@@ -160,13 +162,13 @@ public class Terminal extends javax.swing.JFrame {
         BotonAñadirMatricula.setSize(100, 30);
 
         LabelAñadirMatricula.setText("Por favor introduce la matricula de tu vehículo \n Formato (1234-ABC)");
+        TextAñadirMatricula.setText("Añade tu matricula");
 
         LabelAñadirMatricula.setBounds(30, 20, LabelAñadirMatricula.getWidth(), LabelAñadirMatricula.getHeight());
         TextAñadirMatricula.setBounds(100, 240, TextAñadirMatricula.getWidth(), TextAñadirMatricula.getHeight());
         BotonAñadirMatricula.setBounds(300, 240, BotonAñadirMatricula.getWidth(), BotonAñadirMatricula.getHeight());
 
         actualizarTabla();
-
         pantallaAparcar.setLocationRelativeTo(null);
 
     }
@@ -262,19 +264,6 @@ public class Terminal extends javax.swing.JFrame {
         }
     }
 
-    public boolean validoDouble(String valido) {
-        //metodo para verificar que solo haya números en un campo de texto
-        //devuelve true si solo hay numeros, en caso contrario devuelve false
-        String texto = valido.trim().toLowerCase();
-        int validador;
-        try {
-            validador = Integer.parseInt(texto);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public boolean validoNulos(String valido) {
         //metodo para validar si el usuario ha introducido algo por teclado
         //devuelve true si se ha introducido algo
@@ -352,19 +341,15 @@ public class Terminal extends javax.swing.JFrame {
         LabelParquimetroPrincipal = new javax.swing.JLabel();
         BotonAparcarCoche = new javax.swing.JButton();
         BotonRetirarCoche = new javax.swing.JButton();
-        LabelPlaceHolderTabla = new javax.swing.JLabel();
         TextAñadirMatricula = new javax.swing.JTextField();
         LabelAñadirMatricula = new javax.swing.JLabel();
         BotonAñadirMatricula = new javax.swing.JButton();
         LabelIntroducirId = new javax.swing.JLabel();
         BotonIntroducirId = new javax.swing.JButton();
         TextIntroducirId = new javax.swing.JTextField();
-        LabelPagar = new javax.swing.JLabel();
         TextPagar = new javax.swing.JTextField();
         BotonPagar = new javax.swing.JButton();
         LabelHacienda = new javax.swing.JLabel();
-        LabelPagar2 = new javax.swing.JLabel();
-        LabelPagar3 = new javax.swing.JLabel();
         LabelPagar4 = new javax.swing.JLabel();
         LabelAparcamiento = new javax.swing.JLabel();
         LabelRetirarCoche = new javax.swing.JLabel();
@@ -395,8 +380,6 @@ public class Terminal extends javax.swing.JFrame {
                 BotonRetirarCocheActionPerformed(evt);
             }
         });
-
-        LabelPlaceHolderTabla.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourcesFotos/Victor2(500x500).png"))); // NOI18N
 
         TextAñadirMatricula.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         TextAñadirMatricula.setText("Introduce aqui tu matricula");
@@ -436,12 +419,6 @@ public class Terminal extends javax.swing.JFrame {
             }
         });
 
-        LabelPagar.setBackground(new java.awt.Color(0, 0, 0));
-        LabelPagar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        LabelPagar.setForeground(new java.awt.Color(0, 0, 0));
-        LabelPagar.setText("jLabel1");
-        LabelPagar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
         TextPagar.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         TextPagar.setText("Pague aqui");
         TextPagar.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -459,18 +436,6 @@ public class Terminal extends javax.swing.JFrame {
         });
 
         LabelHacienda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourcesFotos/Hacienda(500x500).png"))); // NOI18N
-
-        LabelPagar2.setBackground(new java.awt.Color(0, 0, 0));
-        LabelPagar2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        LabelPagar2.setForeground(new java.awt.Color(0, 0, 0));
-        LabelPagar2.setText("jLabel1");
-        LabelPagar2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        LabelPagar3.setBackground(new java.awt.Color(0, 0, 0));
-        LabelPagar3.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        LabelPagar3.setForeground(new java.awt.Color(0, 0, 0));
-        LabelPagar3.setText("jLabel1");
-        LabelPagar3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         LabelPagar4.setBackground(new java.awt.Color(0, 0, 0));
         LabelPagar4.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
@@ -494,9 +459,7 @@ public class Terminal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(191, 191, 191)
-                        .addComponent(LabelPlaceHolderTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(76, 76, 76)
+                        .addGap(308, 308, 308)
                         .addComponent(LabelParquimetroPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,11 +474,7 @@ public class Terminal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(BotonIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TextIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LabelIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(LabelPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(LabelPagar2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(LabelIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -527,9 +486,7 @@ public class Terminal extends javax.swing.JFrame {
                                 .addGap(36, 36, 36)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(LabelPagar3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(LabelPagar4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(LabelPagar4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(211, 211, 211))
                                     .addComponent(LabelAparcamiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -549,14 +506,9 @@ public class Terminal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(149, 149, 149)
-                        .addComponent(LabelPlaceHolderTabla))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(105, 105, 105)
-                        .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(78, 78, 78)
+                .addGap(105, 105, 105)
+                .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(522, 522, 522)
                 .addComponent(LabelIntroducirId)
                 .addGap(69, 69, 69)
                 .addComponent(TextIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -564,14 +516,8 @@ public class Terminal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BotonIntroducirId)
                     .addComponent(LabelHacienda))
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LabelPagar)
-                    .addComponent(LabelPagar2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LabelPagar3))
+                .addGap(80, 80, 80)
+                .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(BotonPagar)
@@ -628,30 +574,37 @@ public class Terminal extends javax.swing.JFrame {
 
     private void BotonAñadirMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAñadirMatriculaActionPerformed
         // TODO add your handling code here:
+        //comprobaciones de que no le de al boton con el texto vacio y de que tenga formato matricula
         if (!validoNulos(TextAñadirMatricula.getText().trim().toUpperCase()) || !validoMatricula(TextAñadirMatricula.getText().trim().toUpperCase())) {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir la matricula correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        if (!app.comprobarMatricula(TextAñadirMatricula.getText().trim().toUpperCase())) {
+            JOptionPane.showMessageDialog(null, "El coche ya está en el parking", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        //asigna este ticket al primer espacio libre que encuentre
         ticket = app.asignarPlaza(app.encontrarEspacioLibre(), TextAñadirMatricula.getText().trim().toUpperCase());
         JOptionPane.showMessageDialog(null, "Tu ticket es: " + ticket.toString() + " NO LO PIERDAS", "TICKET", JOptionPane.DEFAULT_OPTION);
 
-        ticketSeleccionado = ticket;
-        System.out.println("ticket seleccionado" + ticketSeleccionado.toString());
-
         app.mostrarPlano();
         actualizarTabla();
-        
-        
-        //LabelAparcamiento.setVisible(false);
+
         pantallaAparcar.dispose();
     }//GEN-LAST:event_BotonAñadirMatriculaActionPerformed
 
     private void BotonIntroducirIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonIntroducirIdActionPerformed
         // TODO add your handling code here:
+        //valido que no deje el texto vacio y que sea un numero
         if (!validoNulos(TextIntroducirId.getText().trim()) || !validoNumeros(TextIntroducirId.getText().trim())) {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir el id correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
+            //compruebo que el id introducido se encuentra en un ticket
+            //si se encuentra el ticket el contador no va a ser igual al tamaño de la lista
+            //por lo que no va a pasar nada pero si no se encuentra el contador no se mueve y se considera como 
+            //que no hay ticket con ese id
             int cont = app.getListaTickets().size();
             int tamanio = app.getListaTickets().size();
             for (Ticket ticket2 : app.getListaTickets()) {
@@ -662,11 +615,10 @@ public class Terminal extends javax.swing.JFrame {
             }
             if (cont == tamanio) {
                 JOptionPane.showMessageDialog(null, "No existe coche con ese ID en este parking", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }else{
-               ventanaPagar(); 
+            } else {
+                ventanaPagar();
+                pantallaRetirar.dispose();
             }
-            System.out.println("ticket seleccionado " + ticketSeleccionado.toString());
-            
         }
     }//GEN-LAST:event_BotonIntroducirIdActionPerformed
 
@@ -677,21 +629,25 @@ public class Terminal extends javax.swing.JFrame {
 
     private void BotonPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonPagarActionPerformed
         // TODO add your handling code here:
+        //comprobaciones de que no deja el texto vacio y de que solo introduce numeros
         if (!validoNulos(TextPagar.getText().trim()) || !validoNumeros(TextPagar.getText().trim())) {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir el importe correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        //compruebo que no introduzca menos dinero que el improte correspondiente
         if (app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado)) > Double.parseDouble(TextPagar.getText().trim())) {
             JOptionPane.showMessageDialog(null, "El dinero introducido no alcanza el importe", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        System.out.println("Deposito antes de pagar: " + app.deposito);
+        //variable para almacenar el cambio
         Double cambio = (Double.parseDouble(TextPagar.getText().trim())) - app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado));
-        JOptionPane.showMessageDialog(null, "Has introducido " + TextPagar.getText().trim() + " €, la vuelta correspondiente es: " + app.devolverCambio(String.valueOf(cambio)).toString(), "VUELTAS", JOptionPane.PLAIN_MESSAGE);
-        app.introducirDinero(TextPagar.getText().trim());
+        //llamada directa al metodo de la vuelta en el propio mensaje
+        JOptionPane.showMessageDialog(null, "Has introducido " + TextPagar.getText().trim() + " €, la vuelta correspondiente es: " + deposito.devolverCambio(String.valueOf(cambio)).toString(), "VUELTAS", JOptionPane.PLAIN_MESSAGE);
+        //metodo de introducir el dinero en el deposito
+        deposito.introducirDinero(TextPagar.getText().trim());
         app.liberarPlaza(ticketSeleccionado);
         actualizarTabla();
-        System.out.println("Deposito despues de pagar: " + app.deposito);
+        pantallaPagar.dispose();
     }//GEN-LAST:event_BotonPagarActionPerformed
 
     /**
@@ -740,12 +696,8 @@ public class Terminal extends javax.swing.JFrame {
     private javax.swing.JLabel LabelAñadirMatricula;
     private javax.swing.JLabel LabelHacienda;
     private javax.swing.JLabel LabelIntroducirId;
-    private javax.swing.JLabel LabelPagar;
-    private javax.swing.JLabel LabelPagar2;
-    private javax.swing.JLabel LabelPagar3;
     private javax.swing.JLabel LabelPagar4;
     private javax.swing.JLabel LabelParquimetroPrincipal;
-    private javax.swing.JLabel LabelPlaceHolderTabla;
     private javax.swing.JLabel LabelRetirarCoche;
     private javax.swing.JScrollPane ScrollTabla;
     private javax.swing.JTextField TextAñadirMatricula;
