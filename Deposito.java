@@ -4,13 +4,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- * Clase que representa un depósito de monedas y billetes y un sistema de pago.
- * Gestiona el dinero almacenado en el depósito, incluyendo billetes y monedas
- * de diferentes clases. Permite introducir dinero, devolver cambio y validar monedas.
+ * Clase que representa un depósito de monedas y billetes en un sistema de pago.
+ * Esta clase gestiona el dinero almacenado en el depósito, incluyendo billetes y monedas
+ * de diferentes denominaciones. Permite introducir dinero, devolver cambio y validar monedas.
  */
 public class Deposito {
 
-    // Atributos para las diferentes clases de billetes y monedas almacenadas en el depósito
+    // Atributos que representan las diferentes denominaciones de dinero almacenado en el depósito
     private int billetes20 = 100;  // Billetes de 20 euros
     private int billetes10 = 100;  // Billetes de 10 euros
     private int billetes5 = 100;   // Billetes de 5 euros
@@ -33,10 +33,10 @@ public class Deposito {
      *
      * @param monedas2 Cantidad de monedas de 2 euros
      * @param monedas1 Cantidad de monedas de 1 euro
-     * @param centimos50 Cantidad de monedas de 0.50 céntimos
-     * @param centimos20 Cantidad de monedas de 0.20 céntimos
-     * @param centimos10 Cantidad de monedas de 0.10 céntimos
-     * @param centimos5 Cantidad de monedas de 0.05 céntimos
+     * @param centimos50 Cantidad de monedas de 0.50 euros
+     * @param centimos20 Cantidad de monedas de 0.20 euros
+     * @param centimos10 Cantidad de monedas de 0.10 euros
+     * @param centimos5 Cantidad de monedas de 0.05 euros
      */
     public Deposito(int monedas2, int monedas1, int centimos50, int centimos20, int centimos10, int centimos5) {
         this.monedas2 = monedas2;
@@ -49,32 +49,77 @@ public class Deposito {
 
     // Métodos getters y setters para acceder y modificar las cantidades de billetes y monedas.
 
-    public int getBilletes20() {return billetes20;}
-    public void setBilletes20(int billetes20) {this.billetes20 = billetes20;}
+    public int getBilletes20() {
+        return billetes20;
+    }
 
-    public int getBilletes10() {return billetes10;}
-    public void setBilletes10(int billetes10) {this.billetes10 = billetes10;}
+    public void setBilletes20(int billetes20) {
+        this.billetes20 = billetes20;
+    }
 
-    public int getBilletes5() {return billetes5;}
-    public void setBilletes5(int billetes5) {this.billetes5 = billetes5;}
+    public int getBilletes10() {
+        return billetes10;
+    }
 
-    public int getMonedas2() {return monedas2;}
-    public void setMonedas2(int monedas2) {this.monedas2 = monedas2;}
+    public void setBilletes10(int billetes10) {
+        this.billetes10 = billetes10;
+    }
 
-    public int getMonedas1() {return monedas1;}
-    public void setMonedas1(int monedas1) {this.monedas1 = monedas1;}
+    public int getBilletes5() {
+        return billetes5;
+    }
 
-    public int getCentimos50() {return centimos50;}
-    public void setCentimos50(int centimos50) {this.centimos50 = centimos50;}
+    public void setBilletes5(int billetes5) {
+        this.billetes5 = billetes5;
+    }
 
-    public int getCentimos20() {return centimos20;}
-    public void setCentimos20(int centimos20) {this.centimos20 = centimos20;}
+    public int getMonedas2() {
+        return monedas2;
+    }
 
-    public int getCentimos10() {return centimos10;}
-    public void setCentimos10(int centimos10) {this.centimos10 = centimos10;}
+    public void setMonedas2(int monedas2) {
+        this.monedas2 = monedas2;
+    }
 
-    public int getCentimos5() {return centimos5;}
-    public void setCentimos5(int centimos5) {this.centimos5 = centimos5;}
+    public int getMonedas1() {
+        return monedas1;
+    }
+
+    public void setMonedas1(int monedas1) {
+        this.monedas1 = monedas1;
+    }
+
+    public int getCentimos50() {
+        return centimos50;
+    }
+
+    public void setCentimos50(int centimos50) {
+        this.centimos50 = centimos50;
+    }
+
+    public int getCentimos20() {
+        return centimos20;
+    }
+
+    public void setCentimos20(int centimos20) {
+        this.centimos20 = centimos20;
+    }
+
+    public int getCentimos10() {
+        return centimos10;
+    }
+
+    public void setCentimos10(int centimos10) {
+        this.centimos10 = centimos10;
+    }
+
+    public int getCentimos5() {
+        return centimos5;
+    }
+
+    public void setCentimos5(int centimos5) {
+        this.centimos5 = centimos5;
+    }
 
     /**
      * Método toString que devuelve una representación del estado actual del depósito,
@@ -134,8 +179,6 @@ public class Deposito {
         // Comprobamos si el valor de los céntimos es divisible entre 5 (para evitar 0.01 y 0.02 céntimos)
         if (centimos % 5 != 0) {
             JOptionPane.showMessageDialog(terminal, "No puedes introducir monedas de 0,01 o 0,02 céntimos", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            System.out.println("Dinero valido: " + dineroIntroducido);
         }
     }
 
@@ -253,8 +296,6 @@ public class Deposito {
         // Si no se puede devolver todo el cambio, notificamos
         if (cambio > 0) {
             System.out.println("No se puede devolver el cambio completo. Falta: " + cambio + "€");
-        } else {
-            System.out.println("Cambio devuelto: " + vueltas.toStringMonedas(vueltas));
         }
 
         return vueltas;

@@ -1,208 +1,192 @@
-package practica;
+package ClasesPrincipales;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Clase que representa una máquina expendedora de tickets para el aparcamiento.
+ * Gestiona el plano del aparcamiento, la asignación y liberación de plazas, y el cálculo de tarifas.
+ */
 public class Maquina {
 
-    private static final int NUM_MAX_PLANTAS = 3;
-    private static final int NUM_MAX_PLAZAS_POR_PLANTA = 20;
-    private int asignadorClave = 0;
+    // Constantes para el número máximo de plantas y plazas por planta
+    private static final int NUM_MAX_PLANTAS = 3; // Número máximo de plantas en el aparcamiento
+    private static final int NUM_MAX_PLAZAS_POR_PLANTA = 20; // Número máximo de plazas por planta
 
-    private double precioMinuto;
-    private Deposito deposito;
-    // el genérico es Ticket porque vamos a usar Objetos Ticket dentro
-    // de la lista
-    private List<Ticket> listaTickets = new ArrayList<>();
-    ;
-    private int[][] plano;
+    // Atributos estáticos y variables relacionadas con la máquina y los tickets
+    private static int asignadorClave = 0; // Asignador de claves para los tickets
+    private static double precioMinuto; // Precio por minuto del aparcamiento
+    protected Deposito deposito = new Deposito(); // Objeto que gestiona el depósito de monedas
+    private ArrayList<Ticket> listaTickets = new ArrayList<>(); // Lista que almacena los tickets generados
 
-    public Maquina(double precioMinuto) {
-        this.precioMinuto = precioMinuto;
-        // tenemos que inicializar el deposito
-        // Maquina en su constructor solo recibe precio/minuto
-        this.deposito = new Deposito();
-        // no olvidar los diamantes para el genérico
-        this.listaTickets = listaTickets;
-        this.plano = new int[NUM_MAX_PLANTAS][NUM_MAX_PLAZAS_POR_PLANTA];
+    // Plano del aparcamiento representado como una matriz
+    private static Integer[][] plano = rellenarPlano();
 
+    // Objeto Terminal que representa la interfaz con el usuario
+    private Terminal terminal;
+
+    /**
+     * Constructor por defecto de la clase Maquina.
+     * Este constructor es utilizado para acceder a la máquina desde la clase Terminal.
+     */
+    public Maquina() {
+        System.out.println("Constructor por defecto");
     }
 
-    public Ubicacion encontrarEspacioLibre() {
+    /**
+     * Constructor principal de la clase Maquina.
+     * Recibe el precio por minuto para gestionar el coste del aparcamiento.
+     * Además, inicializa el depósito y el plano del aparcamiento, y muestra la interfaz Terminal.
+     *
+     * @param precioMinuto El precio por minuto de estacionamiento en el aparcamiento.
+     */
+    public Maquina(double precioMinuto) {
+        this.precioMinuto = precioMinuto; // Inicializa el precio por minuto
+        System.out.println("constructor normal");
 
-        for (int i = 0; i < NUM_MAX_PLANTAS; i++) {
-            for (int j = 0; j < NUM_MAX_PLAZAS_POR_PLANTA; j++) {
-                if (this.plano[i][j] == 0) {
-                    // significa que esta posición está vacía
+        // Rellenar el plano y mostrarlo (representa la distribución de las plantas y plazas)
+        rellenarPlano();
+        mostrarPlano();
+
+        // Inicializa el terminal para la interacción con el usuario
+        terminal = new Terminal();
+        terminal.setVisible(true); // Hace visible la ventana del terminal
+    }
+
+    /**
+     * Obtiene la lista de tickets generados.
+     *
+     * @return La lista de tickets
+     */
+    public ArrayList<Ticket> getListaTickets() {
+        return listaTickets;
+    }
+
+    /**
+     * Obtiene el plano del aparcamiento.
+     *
+     * @return El plano del aparcamiento representado como una matriz de enteros
+     */
+    public Integer[][] getPlano() {
+        return plano;
+    }
+
+    /**
+     * Inicializa los valores de la matriz del plano a 0, indicando que todas las plazas están libres.
+     *
+     * @return El plano inicializado con 0 en cada plaza.
+     */
+    public static Integer[][] rellenarPlano() {
+        plano = new Integer[NUM_MAX_PLANTAS][NUM_MAX_PLAZAS_POR_PLANTA];
+        for (int i = 0; i < plano.length; i++) {
+            for (int j = 0; j < plano[i].length; j++) {
+                plano[i][j] = 0; // 0 indica que la plaza está libre
+            }
+        }
+        return plano;
+    }
+
+    /**
+     * Muestra el plano del aparcamiento en la consola.
+     * Imprime la matriz de plazas de aparcamiento para visualizar el estado actual de cada plaza.
+     */
+    public void mostrarPlano() {
+        for (int i = 0; i < plano.length; i++) {
+            for (int j = 0; j < plano[i].length; j++) {
+                System.out.print(plano[i][j]); // Imprime el valor de cada plaza
+            }
+            System.out.println(""); // Nueva línea después de cada planta
+        }
+    }
+
+    /**
+     * Encuentra la primera plaza libre en el plano donde el valor sea 0.
+     *
+     * @return Un objeto Ubicacion que representa la plaza libre o null si no se encuentra una plaza libre.
+     */
+    public Ubicacion encontrarEspacioLibre() {
+        for (int i = 0; i < plano.length; i++) {
+            for (int j = 0; j < plano[i].length; j++) {
+                if (plano[i][j] == 0) { // La plaza está libre (valor 0)
                     Ubicacion ubicacion = new Ubicacion(i, j);
                     return ubicacion;
                 }
             }
         }
-        return null;
+        return null; // No hay plazas libres
     }
 
+    /**
+     * Asigna una plaza libre al coche y genera un ticket para el vehículo.
+     * Actualiza el plano con el ID del ticket y guarda el ticket en la lista de tickets.
+     *
+     * @param ubicacionPlaza La ubicación de la plaza a asignar
+     * @param matricula La matrícula del coche
+     * @return El ticket generado con la plaza asignada
+     */
     public Ticket asignarPlaza(Ubicacion ubicacionPlaza, String matricula) {
-        // le pasamos la ubicacion y un ID
-        int id = asignadorClave++;
-        this.plano[ubicacionPlaza.getPlanta()][ubicacionPlaza.getPlaza()] = id;
-
+        // Genera un nuevo ticket con un ID único
+        asignadorClave++;
+        int id = asignadorClave;
+        System.out.println("ID " + id);
         Ticket ticket = new Ticket(id, matricula, LocalDateTime.now(), ubicacionPlaza);
-        this.listaTickets.add(ticket);
-
-        return ticket;
+        this.plano[ubicacionPlaza.getPlanta()][ubicacionPlaza.getPlaza()] = id; // Asigna el ticket a la plaza
+        System.out.println("ticket del metodo " + ticket.toString());
+        this.listaTickets.add(ticket); // Añade el ticket a la lista de tickets
+        mostrarPlano(); // Muestra el plano actualizado
+        return ticket; // Devuelve el ticket generado
     }
 
+    /**
+     * Libera una plaza en el aparcamiento cuando un coche sale.
+     * Actualiza el plano y pone el valor de la plaza a 0 (plaza libre).
+     *
+     * @param ticket El ticket asociado a la plaza que se va a liberar
+     */
     public void liberarPlaza(Ticket ticket) {
-
-        // 1. obtener ubicacion del ticket
-        // 2. Buscar en la matriz la ubicacion[i][j] y ponerlo a 0
-        // la ubicacion es un objeto asi que podemos guardar los dos valores asi
-        Ubicacion ubicacion = ticket.getUbicacion();
-        this.plano[ubicacion.getPlanta()][ubicacion.getPlaza()] = 0;
-
-        // se puede hacer con id
+        Ubicacion ubicacion = ticket.getUbicacion(); // Obtiene la ubicación del ticket
+        this.plano[ubicacion.getPlanta()][ubicacion.getPlaza()] = 0; // Marca la plaza como libre (valor 0)
     }
 
+    /**
+     * Calcula el tiempo transcurrido desde que un coche entró al aparcamiento.
+     * Devuelve la diferencia en minutos entre la hora de entrada del ticket y la hora actual.
+     *
+     * @param ticket El ticket del coche para calcular el tiempo transcurrido
+     * @return El tiempo transcurrido en minutos
+     */
     public int calcularTiempoTranscurrido(Ticket ticket) {
-
         LocalDateTime fechaEntrada = ticket.getFechaHora();
         LocalDateTime fechaSalida = LocalDateTime.now();
-
-        // calculamos duracion entre las dos fechas en minutos
-        Duration duracion = Duration.between(fechaEntrada, fechaSalida);
-        long minutosTranscurridos = duracion.toMinutes(); // minutos completos
-        long segundosTranscurridos = duracion.getSeconds() % 60; // segundos restantes
-
-        if (segundosTranscurridos > 0) {
-            minutosTranscurridos++;
-        }
-
-        return (int) minutosTranscurridos;
+        LocalDateTime tiempoTranscurrido = fechaSalida.minusMinutes((int) fechaEntrada.getMinute());
+        return (int) tiempoTranscurrido.getMinute() + 1; // Redondea hacia arriba en caso de tener segundos
     }
 
-    public double calcularDineroPagar(int minutosTranscurridos) {
-
-        double aPagar = minutosTranscurridos * precioMinuto;
-        return aPagar;
-
+    /**
+     * Calcula el dinero a pagar por un coche en función del tiempo que estuvo estacionado.
+     * Multiplica el tiempo transcurrido por el precio por minuto.
+     *
+     * @param tiempo El tiempo transcurrido en minutos
+     * @return El total a pagar en euros
+     */
+    public double totalDineroDevolver(int tiempo) {
+        System.out.println("precio por minuto " + this.precioMinuto);
+        return (double) (tiempo * this.precioMinuto); // Calcula el total a pagar
     }
 
-    public void introducirDinero(String dineroIntroducido) {
-
-        double dinero = Double.parseDouble(dineroIntroducido);
-
-        if (dinero > deposito.getBilletes20()) {
-            deposito.setBilletes20(deposito.getBilletes20() + 1);
-            dinero -= 20.0;
-            System.out.println("introducido: billete de 20");
-        }
-
-        if (dinero > deposito.getBilletes10()) {
-            deposito.setBilletes10(deposito.getBilletes10() + 1);
-            dinero -= 10.0;
-            System.out.println("introducido: billete de 10");
-        }
-
-        if (dinero > deposito.getBilletes5()) {
-            deposito.setBilletes5(deposito.getBilletes5() + 1);
-            dinero -= 5.0;
-            System.out.println("introducido: billete de 5");
-        }
-
-        if (dinero > deposito.getMonedas2()) {
-            deposito.setMonedas2(deposito.getMonedas2() + 1);
-            dinero -= 2.0;
-            System.out.println("introducido: moneda de 2");
-        }
-
-        if (dinero > deposito.getMonedas1()) {
-            deposito.setMonedas1(deposito.getMonedas1() + 1);
-            dinero -= 1.0;
-            System.out.println("introducido: moneda de 1");
-        }
-
-        if (dinero > deposito.getMonedas50()) {
-            deposito.setMonedas50(deposito.getMonedas50() + 1);
-            dinero -= 0.5;
-            System.out.println("introducido: moneda de 50");
-        }
-
-        if (dinero > deposito.getMonedas20()) {
-            deposito.setMonedas20(deposito.getMonedas20() + 1);
-            dinero -= 0.2;
-            System.out.println("introducido: moneda de 20");
-        }
-
-        if (dinero > deposito.getMonedas10()) {
-            deposito.setMonedas10(deposito.getMonedas10() + 1);
-            dinero -= 0.1;
-            System.out.println("introducido: moneda de 10");
-        }
-
-        if (dinero > deposito.getMonedas5()) {
-            deposito.setMonedas5(deposito.getMonedas5() + 1);
-            dinero -= 0.05;
-            System.out.println("introducido: moneda de 5");
-        }
-
-        if (dinero == 0) {
-            return;
-        }
-
-    }
-
-    public double devolverCambio(double dinero) {
-
-        double cambioRestante = dinero;  // total de cambio que se debe devolver
-        Deposito vuelta = new Deposito();  // nuevo depósito para el cambio
-
-        // iteramos dependiendo del cambio a devolver
-        while (cambioRestante > 0) {
-
-            if (cambioRestante >= 2.00 && deposito.getMonedas2() > 0) {
-                deposito.setMonedas2(deposito.getMonedas2() - 1);
-                vuelta.setMonedas2(vuelta.getMonedas2() + 1);
-                cambioRestante -= 2.00;
-
-            } else if (cambioRestante >= 1.00 && deposito.getMonedas1() > 0) {
-                deposito.setMonedas1(deposito.getMonedas1() - 1);
-                vuelta.setMonedas1(vuelta.getMonedas1() + 1);
-                cambioRestante -= 1.00;
-
-            } else if (cambioRestante >= 0.50 && deposito.getMonedas50() > 0) {
-                deposito.setMonedas50(deposito.getMonedas50() - 1);
-                vuelta.setMonedas50(vuelta.getMonedas50() + 1);
-                cambioRestante -= 0.50;
-
-            } else if (cambioRestante >= 0.20 && deposito.getMonedas20() > 0) {
-                deposito.setMonedas20(deposito.getMonedas20() - 1);
-                vuelta.setMonedas20(vuelta.getMonedas20() + 1);
-                cambioRestante -= 0.20;
-
-            } else if (cambioRestante >= 0.10 && deposito.getMonedas10() > 0) {
-                deposito.setMonedas10(deposito.getMonedas10() - 1);
-                vuelta.setMonedas10(vuelta.getMonedas10() + 1);
-                cambioRestante -= 0.10;
-
-            } else if (cambioRestante >= 0.05 && deposito.getMonedas5() > 0) {
-                deposito.setMonedas5(deposito.getMonedas5() - 1);
-                vuelta.setMonedas5(vuelta.getMonedas5() + 1);
-                cambioRestante -= 0.05;
-
-            } else {
-                System.out.println("no hay cambio suficiente");
-                return dinero; // devolvemos el dinero sin cambios
+    /**
+     * Verifica si ya existe un coche con la matrícula proporcionada en el aparcamiento.
+     * No se puede asignar una plaza si el coche ya está en el aparcamiento.
+     *
+     * @param matricula La matrícula a comprobar
+     * @return true si la matrícula no está en el aparcamiento, false si ya está
+     */
+    public boolean comprobarMatricula(String matricula) {
+        for (Ticket ticket : listaTickets) {
+            if (ticket.getMatricula().equals(matricula) && ticket.isActivo()) {
+                return false; // Ya existe un coche con esta matrícula en el aparcamiento
             }
         }
-
-        // comprobar el deposito de vuelta
-        System.out.println("contenido del depósito vuelta: " + vuelta.toString());
-
-        System.out.println("cambio devuelto correctamente");
-        return dinero - cambioRestante;  // devolvemos el total de cambio entregado
+        return true; // La matrícula no está en el aparcamiento
     }
-
 }
