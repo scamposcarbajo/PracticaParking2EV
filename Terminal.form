@@ -28,51 +28,38 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="LabelParquimetroPrincipal" min="-2" pref="41" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="BotonAparcarCoche" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
+                  <Component id="LabelAñadirMatricula" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
+                  <Component id="TextAñadirMatricula" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
+                  <Component id="BotonAñadirMatricula" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="TextIntroducirId" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
+                  <Component id="BotonIntroducirId" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
+                  <Component id="TextPagar" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
+                  <Component id="BotonPagar" min="-2" pref="57" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="LabelParquimetroPrincipal" min="-2" pref="41" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="BotonAparcarCoche" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
-                          <Component id="LabelAñadirMatricula" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
-                          <Component id="TextAñadirMatricula" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
-                          <Component id="BotonAñadirMatricula" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="BotonRetirarCoche" min="-2" pref="57" max="-2" attributes="0"/>
-                                  <Component id="LabelIntroducirId" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Component id="TextIntroducirId" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
-                          <Component id="BotonIntroducirId" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="LabelHacienda" min="-2" pref="47" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="ScrollTabla" min="-2" pref="100" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="LabelRetirarCoche" min="-2" pref="41" max="-2" attributes="0"/>
-                          <Component id="BotonPagar" min="-2" pref="57" max="-2" attributes="0"/>
-                          <Component id="TextPagar" min="-2" pref="74" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="LabelPagar4" min="-2" pref="41" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="211" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="LabelAparcamiento" alignment="1" min="-2" pref="41" max="-2" attributes="0"/>
+                          <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
+                          <Component id="BotonRetirarCoche" min="-2" pref="57" max="-2" attributes="0"/>
+                          <Component id="LabelIntroducirId" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
+                          <Component id="LabelPagar4" min="-2" pref="41" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="301" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="LabelHacienda" min="-2" pref="47" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="ScrollTabla" min="-2" pref="100" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <Component id="LabelRetirarCoche" min="-2" pref="41" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+              <Component id="LabelAparcamiento" min="-2" pref="41" max="-2" attributes="0"/>
+              <EmptySpace pref="212" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -80,55 +67,51 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="LabelParquimetroPrincipal" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="LabelParquimetroPrincipal" min="-2" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="ScrollTabla" min="-2" pref="100" max="-2" attributes="0"/>
                                   <Component id="LabelHacienda" min="-2" max="-2" attributes="0"/>
+                                  <Component id="LabelRetirarCoche" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="LabelAparcamiento" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="BotonAparcarCoche" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="BotonRetirarCoche" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="LabelAñadirMatricula" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="TextAñadirMatricula" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="BotonAñadirMatricula" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="LabelIntroducirId" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="TextIntroducirId" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="BotonIntroducirId" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="TextPagar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="BotonPagar" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="LabelPagar4" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="761" max="-2" attributes="0"/>
-                      <Component id="TextPagar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="BotonPagar" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="LabelPagar4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="166" max="-2" attributes="0"/>
-                      <Component id="LabelRetirarCoche" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="BotonAparcarCoche" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="BotonRetirarCoche" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="LabelAñadirMatricula" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="TextAñadirMatricula" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="BotonAñadirMatricula" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="LabelIntroducirId" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="TextIntroducirId" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="BotonIntroducirId" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="201" max="-2" attributes="0"/>
                   </Group>
               </Group>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="0" pref="1712" max="32767" attributes="0"/>
-              <Component id="LabelAparcamiento" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="411" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="37" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

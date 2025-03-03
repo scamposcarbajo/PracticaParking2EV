@@ -217,14 +217,14 @@ public class Deposito {
 
     /**
      * Método que devuelve el cambio correspondiente a una cantidad de dinero introducida.
-     * Este método calcula el cambio y lo devuelve en un objeto `Deposito` con las monedas correspondientes.
+     * Este método calcula el cambio y lo devuelve en un objeto Deposito con las monedas correspondientes.
      *
-     * @param dineroIntroducido Dinero que se ha introducido para calcular el cambio.
+     * @param cambioDevolver Dinero que se ha introducido para calcular el cambio.
      * @return Un objeto Deposito con las monedas que deben devolverse como cambio.
      */
-    public Deposito devolverCambio(String dineroIntroducido) {
-        double dinero = Double.parseDouble(dineroIntroducido);
-        double cambio = dinero - 0.5;  // Suponemos que el importe a pagar es 0.50€
+    public Deposito devolverCambio(Double cambioDevolver) {
+
+          // Suponemos que el importe a pagar es 0.50€
 
         Deposito vueltas = new Deposito(0, 0, 0, 0, 0, 0); // Crear un nuevo depósito para almacenar el cambio
 
@@ -233,14 +233,14 @@ public class Deposito {
 
         // Recorremos cada tipo de moneda
         for (int i = 0; i < valores.length; i++) {
-            while (cambio >= valores[i]) {
+            while (cambioDevolver >= valores[i]) {
                 // Verificamos si hay monedas suficientes y las restamos del depósito
                 switch (i) {
                     case 0: 
                         if (this.monedas2 > 0) {
                             this.monedas2--;
                             vueltas.monedas2++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -249,7 +249,7 @@ public class Deposito {
                         if (this.monedas1 > 0) {
                             this.monedas1--;
                             vueltas.monedas1++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -258,7 +258,7 @@ public class Deposito {
                         if (this.centimos50 > 0) {
                             this.centimos50--;
                             vueltas.centimos50++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -267,7 +267,7 @@ public class Deposito {
                         if (this.centimos20 > 0) {
                             this.centimos20--;
                             vueltas.centimos20++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -276,7 +276,7 @@ public class Deposito {
                         if (this.centimos10 > 0) {
                             this.centimos10--;
                             vueltas.centimos10++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -285,7 +285,7 @@ public class Deposito {
                         if (this.centimos5 > 0) {
                             this.centimos5--;
                             vueltas.centimos5++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -295,8 +295,8 @@ public class Deposito {
         }
 
         // Si no se puede devolver todo el cambio, notificamos
-        if (cambio > 0) {
-            System.out.println("No se puede devolver el cambio completo. Falta: " + cambio + "€");
+        if (cambioDevolver > 0) {
+            System.out.println("No se puede devolver el cambio completo. Falta: " + cambioDevolver + "€");
         }
 
         return vueltas;
