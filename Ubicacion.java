@@ -36,7 +36,7 @@ public class Ubicacion {
 
     @Override
     public String toString() {
-        return "Ubicacion{" + "planta=" + planta + ", plaza=" + plaza;
+        return "Planta: " + planta + ", plaza: " + plaza;
     }
 
 }

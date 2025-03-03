@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ClasesPrincipales;
 
 import java.awt.Color;
@@ -31,6 +27,13 @@ public class Terminal extends javax.swing.JFrame {
     private DefaultTableModel modeloTabla;//contenedor de la matriz de enteros
     private Deposito deposito = new Deposito();
 
+    /**
+     * Constructor por defecto de la clase Terminal. Este constructor inicializa
+     * los componentes de la interfaz de usuario, establece la visibilidad de
+     * algunos elementos, y configura la tabla para mostrar el plano del
+     * parking. Además, prepara la ventana principal del parquimetro y ajusta la
+     * ubicación de la ventana en la pantalla.
+     */
     public Terminal() {
         initComponents();
         LabelAñadirMatricula.setVisible(false);
@@ -57,6 +60,20 @@ public class Terminal extends javax.swing.JFrame {
     //metodo para actualizar la matriz basado en la matriz producida en maquina 
     public int indiceColumnaActual = 0;
 
+    /**
+     * Actualiza el contenido de la tabla que muestra el plano del parking con
+     * la nueva matriz de datos.
+     *
+     * Este método realiza los siguientes pasos: Obtiene la nueva matriz de
+     * datos del parking desde la clase app usando el método getPlano(). Limpia
+     * el modelo de la tabla (eliminando filas y columnas anteriores). Establece
+     * un formato específico para mostrar la tabla con 10 columnas por fila y
+     * separando cada 2 filas de datos con una fila vacía. Se configuran las
+     * columnas de la tabla y se añaden las filas correspondientes a las plazas
+     * del parking, considerando que cada planta tiene una matriz de datos con
+     * filas de 20 columnas, pero se divide en bloques de 10 columnas para la
+     * visualización.
+     */
     public void actualizarTabla() {
         // Obtener la nueva matriz de la otra clase
         Integer[][] nuevaMatriz = app.getPlano();
@@ -110,8 +127,26 @@ public class Terminal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    /**
+     * Crea y muestra la ventana principal del parquímetro, donde se visualiza
+     * la interfaz para aparcar o retirar un coche del parking, junto con una
+     * tabla que muestra las plazas disponibles.
+     *
+     * La ventana contiene: Una label (LabelParquimetroPrincipal) para el
+     * contenedor principal que organiza todos los componentes. Un botón
+     * (BotonAparcarCoche)que permite al usuario aparcar un coche en el parking.
+     * Un botón (BotonRetirarCoche) que permite retirar un coche previamente
+     * aparcado. Un scrollPane (ScrollTabla) que contiene una tabla que muestra
+     * el estado actual del parking.
+     *
+     * La interfaz de la ventana contiene: Los botones para aparcar y retirar el
+     * coche. La tabla del plano del parking.
+     *
+     * El método mostrarTabla() se utiliza para mostrar el plano actualizado del
+     * parking. actualizarTabla() asegura que la tabla se actualice con los
+     * últimos cambios.
+     */
     public void ventanaParquimetro() {
-        //ARREGLAR LO DE LA PUTA TABLA
         //ventana principal del parquimetro
         setSize(350, 720);
         LabelParquimetroPrincipal.setSize(350, 720);
@@ -138,6 +173,21 @@ public class Terminal extends javax.swing.JFrame {
         mostrarTabla();
     }
 
+    /**
+     * Crea y muestra una ventana para aparcar un coche en el parking.
+     *
+     * Esta ventana permite al usuario introducir la matrícula de su vehículo
+     * para aparcarlo en una plaza disponible del parking. El sistema valida que
+     * la matrícula esté correctamente introducida antes de asignar una plaza.
+     *
+     * La ventana incluye: Un campo de texto (TextAñadirMatricula) para ingresar
+     * la matrícula del vehículo. Un botón (BotonAñadirMatricula) para confirmar
+     * la introducción de la matrícula y asignar la plaza. - Una etiqueta
+     * (LabelAñadirMatricula) que muestra el formato correcto de la matrícula.
+     *
+     * Además, la ventana también actualiza el plano del parking para mostrar el
+     * estado actual de las plazas.
+     */
     public void ventanaAparcar() {
         //ventana para aparcar un coche en el parking
         pantallaAparcar = new JFrame();
@@ -173,6 +223,23 @@ public class Terminal extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Crea y muestra una ventana para retirar un coche del parking.
+     *
+     * Esta ventana permite al usuario introducir el ID de un ticket asociado a
+     * un vehículo estacionado para retirar su coche. El usuario debe introducir
+     * el ID en el campo de texto, y hacer clic en el botón.
+     *
+     * La ventana incluye: Un campo de texto (TextIntroducirId) para que el
+     * usuario ingrese el ID del ticket. Un botón (BotonIntroducirId) para
+     * confirmar la introducción del ID y proceder con la retirada. Un panel de
+     * texto (jEditorPane1) que muestra instrucciones sobre cómo introducir el
+     * ID. Una etiqueta (LabelIntroducirId) que acompaña al campo de texto.
+     *
+     * La ventana también muestra información relevante sobre el formato
+     * correcto del ID a introducir, y permite al usuario proceder con la
+     * retirada del coche tras la validación del ID.
+     */
     public void ventanaRetirar() {
         //ventana para retirar un coche del parking
         pantallaRetirar = new JFrame();
@@ -210,6 +277,23 @@ public class Terminal extends javax.swing.JFrame {
         pantallaRetirar.setLocationRelativeTo(null);
     }
 
+    /**
+     * Crea y muestra una ventana para el pago del importe correspondiente al
+     * ticket del vehículo estacionado.
+     *
+     * Esta ventana enseña información sobre el vehículo, el tiempo que ha
+     * estado estacionado y el importe a pagar. También permite introducir el
+     * importe mediante un campo de texto y un botón para realizar el pago.
+     *
+     * La ventana incluye: Un campo de texto (TextPagar) para que el usuario
+     * introduzca el importe a pagar. Un botón (BotonPagar) para procesar el
+     * pago. Un panel de texto (EditorPane2) que muestra información detallada
+     * sobre el vehículo y el importe. Un label (LabelPagar4) con un mensaje
+     * adicional.
+     *
+     * El contenido de la ventana se adapta con los datos del ticket
+     * seleccionado.
+     */
     public void ventanaPagar() {
         //ventana para pagar el importe del ticket
         pantallaPagar = new JFrame();
@@ -251,19 +335,38 @@ public class Terminal extends javax.swing.JFrame {
         pantallaPagar.setLocationRelativeTo(null);
     }
 
+    /**
+     * Verifica si el valor introducido contiene solo números. Este método
+     * intenta convertir el texto introducido en un número. El método también
+     * elimina los espacios al inicio y al final del texto, y convierte el texto
+     * a minúsculas.
+     *
+     * @param valido El texto introducido por el usuario para verificar si es un
+     * número.
+     * @return true si el texto contiene solo números (puede ser decimal), false
+     * si el texto contiene caracteres no numéricos.
+     */
     public boolean validoNumeros(String valido) {
         //metodo para verificar que solo haya números en un campo de texto
         //devuelve true si solo hay numeros, en caso contrario devuelve false
         String texto = valido.trim().toLowerCase();
         double validador;
         try {
-            validador = Double.parseDouble(texto);
+            validador = Double.parseDouble(texto);  // Intentamos convertir el texto a un número
             return true;
         } catch (Exception e) {
-            return false;
+            return false;  // Si no se puede convertir, significa que no es un número válido
         }
     }
 
+    /**
+     * Valida si el usuario ha introducido un valor no vacío. Este método
+     * verifica si el string proporcionado no está vacío.
+     *
+     * @param valido El string a validar, que representa el texto introducido
+     * por el usuario.
+     * @return true si el string no está vacío, false si el string está vacío.
+     */
     public boolean validoNulos(String valido) {
         //metodo para validar si el usuario ha introducido algo por teclado
         //devuelve true si se ha introducido algo
@@ -275,14 +378,34 @@ public class Terminal extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Valida el formato de una matrícula de coche. Este método verifica si el
+     * string proporcionado cumple con el formato esperado para una matrícula.
+     * El formato válido es: 4 dígitos numéricos, seguidos de un guion, y luego
+     * 3 letras (mayúsculas o minúsculas).
+     *
+     * @param valido El string a validar, que representa la matrícula.
+     * @return true si el formato de la matrícula es correcto, false en caso
+     * contrario.
+     */
     public boolean validoMatricula(String valido) {
-        //metodo para validar el formato de la matricula
-        //va a devolver true si la matricula tiene el formato necesario (4 numeros, un guion, 3 letras)
-        //en caso contrario devuelve false
+        // metodo para validar el formato de la matricula
+        // va a devolver true si la matricula tiene el formato necesario (4 numeros, un guion, 3 letras)
+        // en caso contrario devuelve false
         return valido.matches("\\d{4}-[a-zA-Z]{3}");
     }
 
-    //muestra la tabla con el plano del parking
+    /**
+     * Muestra la tabla que representa el plano del parking. Este método crea
+     * una nueva instancia de JTable utilizando el modelo de datos modeloTabla.
+     * Ajusta el tamaño de la tabla al tamaño del componente ScrollTabla, asigna
+     * un renderizador personalizado para cambiar el color de las celdas basado
+     * en su valor, y oculta los títulos de las columnas.
+     *
+     * Finalmente, se establece la tabla dentro del JScrollPane para que sea
+     * visible en la interfaz de usuario. Este método es responsable de
+     * actualizar la visualización del plano del parking en la interfaz.
+     */
     private void mostrarTabla() {
         //creamos el JTable con el modelo
         tabla = new JTable(modeloTabla);
@@ -296,7 +419,16 @@ public class Terminal extends javax.swing.JFrame {
         this.repaint();
     }
 
-    //NO SE QUE HACE ESTO PERO CAMBIA LOS COLORES NO TOCAR
+    /**
+     * Esta clase extiende DefaultTableCellRenderer para cambiar el color de las
+     * celdas en una tabla de acuerdo con su valor.
+     *
+     * Se utiliza para mostrar valores en una tabla con colores de fondo y texto
+     * que cambian dependiendo del valor contenido en cada celda. Si el valor de
+     * la celda es 0, el fondo será verde y el texto blanco. Si el valor de la
+     * celda es != 0, el fondo será rojo y el texto negro. Si el valor no es un
+     * número, el fondo será blanco y el texto negro.
+     */
     static class ColorCeldaRenderer extends DefaultTableCellRenderer {
 
         @Override
@@ -459,92 +591,84 @@ public class Terminal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(308, 308, 308)
-                        .addComponent(LabelParquimetroPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(BotonAparcarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(BotonRetirarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(TextAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LabelAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BotonAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BotonIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LabelIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(LabelParquimetroPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(LabelRetirarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(BotonPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(36, 36, 36)
+                            .addComponent(BotonAparcarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LabelAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BotonAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(LabelPagar4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(211, 211, 211))
-                                    .addComponent(LabelAparcamiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(304, 304, 304)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(LabelHacienda, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(157, 157, 157))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BotonRetirarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(LabelIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(TextIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BotonIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(LabelHacienda, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(LabelRetirarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BotonPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(66, 66, 66))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(LabelPagar4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(211, 211, 211))
+                            .addComponent(LabelAparcamiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(301, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(522, 522, 522)
-                .addComponent(LabelIntroducirId)
-                .addGap(69, 69, 69)
-                .addComponent(TextIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonIntroducirId)
-                    .addComponent(LabelHacienda))
-                .addGap(80, 80, 80)
-                .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonPagar)
-                    .addComponent(LabelPagar4))
-                .addGap(166, 166, 166)
-                .addComponent(LabelRetirarCoche)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(BotonAparcarCoche)
-                        .addGap(29, 29, 29)
-                        .addComponent(BotonRetirarCoche)
-                        .addGap(48, 48, 48)
-                        .addComponent(LabelAñadirMatricula)
-                        .addGap(30, 30, 30)
-                        .addComponent(TextAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(BotonAñadirMatricula))
-                    .addComponent(LabelParquimetroPrincipal)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LabelParquimetroPrincipal)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(LabelHacienda))))
+                        .addGap(761, 761, 761)
+                        .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BotonPagar)
+                            .addComponent(LabelPagar4))
+                        .addGap(166, 166, 166)
+                        .addComponent(LabelRetirarCoche))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(258, 258, 258)
+                        .addComponent(BotonAparcarCoche)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BotonRetirarCoche)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(LabelAñadirMatricula)
+                        .addGap(18, 18, 18)
+                        .addComponent(TextAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BotonAñadirMatricula)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(992, 992, 992)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(LabelIntroducirId)
+                        .addGap(18, 18, 18)
+                        .addComponent(TextIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BotonIntroducirId))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 1712, Short.MAX_VALUE)
                 .addComponent(LabelAparcamiento)
                 .addGap(411, 411, 411))
         );
@@ -552,13 +676,30 @@ public class Terminal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Maneja el evento cuando se hace clic en el botón para aparcar un coche en
+     * el parking. Abre la ventana correspondiente para permitir al usuario
+     * aparcar un coche, activando la interfaz para realizar el aparcamiento.
+     *
+     * @param evt El evento de acción generado cuando el usuario hace clic en el
+     * botón para aparcar el coche.
+     */
     private void BotonAparcarCocheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAparcarCocheActionPerformed
-        // TODO add your handling code here:
+
+        // Llama al método que muestra la ventana para aparcar un coche
         ventanaAparcar();
     }//GEN-LAST:event_BotonAparcarCocheActionPerformed
 
+    /**
+     * Maneja el evento cuando se hace clic en el botón para retirar un coche
+     * del parking. Este método abre la ventana para permitir al usuario retirar
+     * un coche, activando la interfaz para realizar el proceso de retirada.
+     *
+     * @param evt El evento de acción generado cuando el usuario hace clic en el
+     * botón para retirar el coche.
+     */
     private void BotonRetirarCocheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRetirarCocheActionPerformed
-        // TODO add your handling code here:
+        // Llama al método que muestra la ventana para retirar un coche
         ventanaRetirar();
     }//GEN-LAST:event_BotonRetirarCocheActionPerformed
 
@@ -567,87 +708,174 @@ public class Terminal extends javax.swing.JFrame {
         TextAñadirMatricula.selectAll();
     }//GEN-LAST:event_TextAñadirMatriculaFocusGained
 
+    /**
+     * Maneja el evento cuando el campo de texto para introducir el ID obtiene
+     * el foco. Este método selecciona todo el texto del campo para facilitar la
+     * edición asegurándose de que al hacer clic en el campo, todo el texto sea
+     * seleccionado.
+     *
+     * @param evt El evento de enfoque que se genera cuando el campo de texto
+     * obtiene el foco.
+     */
     private void TextIntroducirIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TextIntroducirIdFocusGained
-        // TODO add your handling code here:
+
         TextIntroducirId.selectAll();
     }//GEN-LAST:event_TextIntroducirIdFocusGained
 
+    /**
+     * Maneja el evento cuando el usuario hace clic en el botón para añadir la
+     * matrícula de un coche al parking. Este método valida la entrada del
+     * usuario, asegurándose de que la matrícula no esté vacía y que tenga el
+     * formato correcto. Luego verifica si el coche ya está en el parking. Si no
+     * está, asigna una plaza libre y genera un ticket.
+     *
+     * @param evt El evento de acción que se genera cuando el usuario hace clic
+     * en el botón.
+     */
     private void BotonAñadirMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAñadirMatriculaActionPerformed
-        // TODO add your handling code here:
-        //comprobaciones de que no le de al boton con el texto vacio y de que tenga formato matricula
+
+        // Validamos que el texto introducido no esté vacío y que tenga el formato correcto de matrícula
         if (!validoNulos(TextAñadirMatricula.getText().trim().toUpperCase()) || !validoMatricula(TextAñadirMatricula.getText().trim().toUpperCase())) {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir la matricula correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+        // Verificamos si el coche ya está en el parking
         if (!app.comprobarMatricula(TextAñadirMatricula.getText().trim().toUpperCase())) {
             JOptionPane.showMessageDialog(null, "El coche ya está en el parking", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        //asigna este ticket al primer espacio libre que encuentre
+        // Asignamos una plaza libre al coche y generamos el ticket correspondiente
         ticket = app.asignarPlaza(app.encontrarEspacioLibre(), TextAñadirMatricula.getText().trim().toUpperCase());
+
+        // Mostramos un mensaje con el ticket asignado
         JOptionPane.showMessageDialog(null, "Tu ticket es: " + ticket.toString() + " NO LO PIERDAS", "TICKET", JOptionPane.DEFAULT_OPTION);
 
+        // Actualizamos el plano de aparcamiento y la tabla de información
         app.mostrarPlano();
         actualizarTabla();
 
+        // Cerramos la ventana de aparcamiento
         pantallaAparcar.dispose();
     }//GEN-LAST:event_BotonAñadirMatriculaActionPerformed
 
+    /**
+     * Maneja el evento cuando el usuario hace clic en el botón para introducir
+     * el ID del ticket. Este método valida la entrada del usuario, comprobando
+     * que el ID no esté vacío y que sea un número. Luego verifica si el ID
+     * introducido corresponde a un ticket válido en la lista de tickets. Si el
+     * ticket está activo, se procede con la acción correspondiente Si no, se
+     * muestra un mensaje de error.
+     *
+     * @param evt El evento de acción que se genera cuando el usuario hace clic
+     * en el botón.
+     */
     private void BotonIntroducirIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonIntroducirIdActionPerformed
-        // TODO add your handling code here:
-        //valido que no deje el texto vacio y que sea un numero
+
+        // Validamos que el texto introducido no esté vacío y que sea un número
         if (!validoNulos(TextIntroducirId.getText().trim()) || !validoNumeros(TextIntroducirId.getText().trim())) {
             JOptionPane.showMessageDialog(null, "Asegurate de introducir el id correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
         } else {
-            //compruebo que el id introducido se encuentra en un ticket
-            //si se encuentra el ticket el contador no va a ser igual al tamaño de la lista
-            //por lo que no va a pasar nada pero si no se encuentra el contador no se mueve y se considera como 
-            //que no hay ticket con ese id
+            // Verificamos si el ID introducido corresponde a un ticket existente
             int cont = app.getListaTickets().size();
             int tamanio = app.getListaTickets().size();
             for (Ticket ticket2 : app.getListaTickets()) {
+                // Si encontramos el ticket, asignamos el ticketSeleccionado
                 if (ticket2.getId() == Integer.parseInt(TextIntroducirId.getText().trim())) {
                     ticketSeleccionado = ticket2;
-                    cont--;
+                    cont--; // Reducimos el contador si encontramos el ticket
+
+                    // Comprobamos si el ticket está desactivado (es decir, si el coche ya salió del parking)
+                    if (!ticket2.isActivo()) {
+                        JOptionPane.showMessageDialog(this, "Este coche ya ha salido del parking", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                 }
             }
+            // Si el contador no ha cambiado, significa que el ID no se encuentra en la lista de tickets
             if (cont == tamanio) {
                 JOptionPane.showMessageDialog(null, "No existe coche con ese ID en este parking", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
+                // Si el ticket es válido y activo, mostramos la ventana de pago y cerramos la ventana de retiro
                 ventanaPagar();
                 pantallaRetirar.dispose();
             }
         }
+
     }//GEN-LAST:event_BotonIntroducirIdActionPerformed
 
+    /**
+     * Maneja el evento cuando el campo de texto "TextPagar" recibe el foco.
+     * Selecciona todo el texto dentro del campo de texto para facilitar el
+     * borrado Esto ocurre automáticamente cuando el usuario hace clic en el
+     * campo de texto.
+     *
+     * @param evt El evento de enfoque que se genera cuando el campo de texto
+     * recibe el foco.
+     */
     private void TextPagarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TextPagarFocusGained
-        // TODO add your handling code here:
+        // Selecciona todo el texto del campo "TextPagar" para facilitar su reemplazo
         TextPagar.selectAll();
     }//GEN-LAST:event_TextPagarFocusGained
 
+    /**
+     * Maneja el evento cuando el usuario hace clic en el botón de pagar.
+     * Verifica que el importe ingresado no esté vacío y que sea un número
+     * válido. Asegura que el importe ingresado sea suficiente para cubrir el
+     * total correspondiente. Calcula y devuelve el cambio. Actualiza el
+     * depósito con el dinero introducido. Libera la plaza correspondiente y
+     * actualiza la interfaz de usuario. Desactiva el ticket y cierra la ventana
+     * de pago.
+     *
+     * @param evt El evento de acción que se genera cuando el usuario hace clic
+     * en el botón de pagar.
+     */
     private void BotonPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonPagarActionPerformed
-        // TODO add your handling code here:
-        //comprobaciones de que no deja el texto vacio y de que solo introduce numeros
+
+        // Comprobaciones de que el campo de texto no esté vacío y que el valor ingresado sea un número válido
         if (!validoNulos(TextPagar.getText().trim()) || !validoNumeros(TextPagar.getText().trim())) {
+            // Muestra un mensaje de error si no se ingresa un número válido
             JOptionPane.showMessageDialog(null, "Asegurate de introducir el importe correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
-            return;
+            return;  // Sale del método si la validación falla
         }
-        //compruebo que no introduzca menos dinero que el improte correspondiente
+
+        // Comprobar si el dinero ingresado es suficiente para cubrir el importe correspondiente
         if (app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado)) > Double.parseDouble(TextPagar.getText().trim())) {
+            // Muestra un mensaje de error si el dinero ingresado es insuficiente
             JOptionPane.showMessageDialog(null, "El dinero introducido no alcanza el importe", "ERROR", JOptionPane.ERROR_MESSAGE);
-            return;
+            return;  // Sale del método si el dinero no es suficiente
         }
-        //variable para almacenar el cambio
+        // Comprobar si el deposito tiene suficiente dinero como para dar cambio
+        if (Integer.parseInt(TextPagar.getText().trim()) > deposito.totalDeposito) {
+            JOptionPane.showMessageDialog(null, "No se puede dar suficiente cambio, por favor introduce una cantidad mas ajustada", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return; // Sale del metodo si no tiene sufiente dinero
+        }
+
+        // Calcula el cambio que se debe devolver
         Double cambio = (Double.parseDouble(TextPagar.getText().trim())) - app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado));
-        //llamada directa al metodo de la vuelta en el propio mensaje
-        JOptionPane.showMessageDialog(null, "Has introducido " + TextPagar.getText().trim() + " €, la vuelta correspondiente es: " + deposito.devolverCambio(String.valueOf(cambio)).toString(), "VUELTAS", JOptionPane.PLAIN_MESSAGE);
-        //metodo de introducir el dinero en el deposito
+
+        // Llama al método devolverCambio para obtener las monedas de vuelta
+        Deposito vueltas = deposito.devolverCambio(TextPagar.getText().trim());
+
+        // Muestra un mensaje con el cambio que se va a devolver
+        JOptionPane.showMessageDialog(null, "Has introducido " + TextPagar.getText().trim() + " €, la vuelta correspondiente es: " + vueltas.toStringMonedas(vueltas), "VUELTAS", JOptionPane.PLAIN_MESSAGE);
+        // Actualiza el depósito con el dinero ingresado por el usuario
         deposito.introducirDinero(TextPagar.getText().trim());
+
+        // Libera la plaza correspondiente, ya que el ticket ha sido pagado
         app.liberarPlaza(ticketSeleccionado);
+
+        // Actualiza la tabla para reflejar el estado actualizado de las plazas
         actualizarTabla();
+
+        // Desactiva el ticket para marcarlo como pagado
+        ticketSeleccionado.desactivar();
+
+        // Cierra la ventana de pago
         pantallaPagar.dispose();
+
     }//GEN-LAST:event_BotonPagarActionPerformed
 
     /**
