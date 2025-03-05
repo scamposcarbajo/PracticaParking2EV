@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -51,17 +52,17 @@ public class Terminal extends javax.swing.JFrame {
     private JSpinner spinnerMonedas02 = new JSpinner(modelMonedas02);
     private JSpinner spinnerMonedas01 = new JSpinner(modelMonedas01);
     private JSpinner spinnerMonedas005 = new JSpinner(modelMonedas005);
-    private JLabel labelBilletes20 = new JLabel("Billetes de 20:");
-    private JLabel labelBilletes10 = new JLabel("Billetes de 10:");
-    private JLabel labelBilletes5 = new JLabel("Billetes de 5:");
-    private JLabel labelMonedas2 = new JLabel("Monedas de 2:");
-    private JLabel labelMonedas1 = new JLabel("Monedas de 1:");
-    private JLabel labelMonedas05 = new JLabel("Monedas de 0.5:");
-    private JLabel labelMonedas02 = new JLabel("Monedas de 0.2:");
-    private JLabel labelMonedas01 = new JLabel("Monedas de 0.1:");
-    private JLabel labelMonedas005 = new JLabel("Monedas de 0.05:");
-    private JLabel labelTotal = new JLabel("Total: 0.00 € ");
-    
+    private JTextField labelBilletes20 = new JTextField("Billetes de 20:");
+    private JTextField labelBilletes10 = new JTextField("Billetes de 10:");
+    private JTextField labelBilletes5 = new JTextField("Billetes de 5:");
+    private JTextField labelMonedas2 = new JTextField("Monedas de 2:");
+    private JTextField labelMonedas1 = new JTextField("Monedas de 1:");
+    private JTextField labelMonedas05 = new JTextField("Monedas de 0.5:");
+    private JTextField labelMonedas02 = new JTextField("Monedas de 0.2:");
+    private JTextField labelMonedas01 = new JTextField("Monedas de 0.1:");
+    private JTextField labelMonedas005 = new JTextField("Monedas de 0.05:");
+    private JTextField labelTotal = new JTextField("Total: 0.00 € ");
+
     private double total;
 
     /**
@@ -105,7 +106,7 @@ public class Terminal extends javax.swing.JFrame {
         spinnerMonedas01.addChangeListener(changeListener);
 
         spinnerMonedas005.addChangeListener(changeListener);
-        
+
         total = 0;
         actualizarTabla();
         mostrarTabla();
@@ -429,30 +430,18 @@ public class Terminal extends javax.swing.JFrame {
 
         LabelPagarSpinners.add(labelMonedas005);
         LabelPagarSpinners.add(spinnerMonedas005);
-        
+
         LabelPagarSpinners.add(labelTotal);
         LabelPagarSpinners.add(BotonPagar);
-        
-        BotonPagar.setVisible(true);
-        
-        labelBilletes20.setFont(LabelAñadirMatricula.getFont());
-        labelBilletes10.setFont(LabelAñadirMatricula.getFont());
-        labelBilletes5.setFont(LabelAñadirMatricula.getFont());
-        labelMonedas2.setFont(LabelAñadirMatricula.getFont());
-        labelMonedas1.setFont(LabelAñadirMatricula.getFont());
-        labelMonedas05.setFont(LabelAñadirMatricula.getFont());
-        labelMonedas02.setFont(LabelAñadirMatricula.getFont());
-        labelMonedas01.setFont(LabelAñadirMatricula.getFont());
-        labelMonedas005.setFont(LabelAñadirMatricula.getFont());
         labelTotal.setFont(LabelAñadirMatricula.getFont());
-        EditorPane2.setFont(LabelAñadirMatricula.getFont());
-        
+
+        BotonPagar.setVisible(true);
 
         EditorPane2.setVisible(true);
         EditorPane2.setContentType("text/html");
 
         LabelPagarSpinners.add(labelTotal); // Agregar el JLabel con el total
-        
+
         EditorPane2.setSize(300, 90);
         BotonPagar.setSize(100, 30);
 
@@ -466,26 +455,36 @@ public class Terminal extends javax.swing.JFrame {
         spinnerMonedas01.setBounds(275, 370, 50, 30);
         spinnerMonedas005.setBounds(395, 370, 50, 30);
 
-        labelBilletes20.setBounds(155, 190, 150, 50);
-        labelBilletes10.setBounds(275, 190, 150, 50);
-        labelBilletes5.setBounds(395, 190, 150, 50);
-        labelMonedas2.setBounds(155, 260, 150, 50);
-        labelMonedas1.setBounds(275, 260, 150, 50);
-        labelMonedas05.setBounds(395, 260, 150, 50);
-        labelMonedas02.setBounds(155, 330, 150, 50);
-        labelMonedas01.setBounds(275, 330, 150, 50);
-        labelMonedas005.setBounds(395, 330, 150, 50);
+        labelBilletes20.setBounds(155, 205, 105, 25);
+        labelBilletes10.setBounds(275, 205, 105, 25);
+        labelBilletes5.setBounds(395, 205, 105, 25);
+        labelMonedas2.setBounds(155, 275, 105, 25);
+        labelMonedas1.setBounds(275, 275, 105, 25);
+        labelMonedas05.setBounds(395, 275, 105, 25);
+        labelMonedas02.setBounds(155, 345, 105, 25);
+        labelMonedas01.setBounds(275, 345, 105, 25);
+        labelMonedas005.setBounds(395, 345, 105, 25);
         
-        labelTotal.setBounds(260, 420, 200, 50);
+        labelBilletes20.setEditable(false);
+        labelBilletes10.setEditable(false);
+        labelBilletes5.setEditable(false);
+        labelMonedas2.setEditable(false);
+        labelMonedas1.setEditable(false);
+        labelMonedas05.setEditable(false);
+        labelMonedas02.setEditable(false);
+        labelMonedas01.setEditable(false);
+        labelMonedas005.setEditable(false);
+        
+
+        labelTotal.setBounds(260, 420, 105, 25);
         BotonPagar.setBounds(250, 460, BotonPagar.getWidth(), BotonPagar.getHeight());
-        
+
         EditorPane2.setBounds(150, 10, EditorPane2.getWidth(), EditorPane2.getHeight());
 
         EditorPane2.setText("<html><br>Vehiculo con matricula (" + ticketSeleccionado.getMatricula() + ")</br>"
                 + "<br>Estacionado durante (" + app.calcularTiempoTranscurrido(ticketSeleccionado) + ") minutos</br>"
                 + "<br>El importe correspondiente es (" + app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado)) + " €)</br></html>");
         EditorPane2.setEditable(false);
-
 
         // Hacer visible la ventana
         LabelPagarSpinners.setVisible(true);
@@ -814,20 +813,13 @@ public class Terminal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(LabelParquimetroPrincipal)
                         .addGap(0, 94, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(LabelPagarSpinners)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(LabelHacienda)
-                                    .addComponent(LabelRetirarCoche)
-                                    .addComponent(LabelAparcamiento)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(BotonAparcarCoche)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -854,6 +846,14 @@ public class Terminal extends javax.swing.JFrame {
                                 .addComponent(BotonPagar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(LabelPagar4)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LabelHacienda)
+                            .addComponent(LabelRetirarCoche)
+                            .addComponent(LabelAparcamiento))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -983,7 +983,7 @@ public class Terminal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No existe coche con ese ID en este parking", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 // Si el ticket es válido y activo, mostramos la ventana de pago y cerramos la ventana de retiro
-                
+
                 ventanaPagarSpinners();
                 pantallaRetirar.dispose();
             }
@@ -1037,7 +1037,6 @@ public class Terminal extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "No se puede dar suficiente cambio, por favor introduce una cantidad mas ajustada", "ERROR", JOptionPane.ERROR_MESSAGE);
 //            return; // Sale del metodo si no tiene sufiente dinero
 //        }
-
         // Calcula el cambio que se debe devolver
         Double cambio = total - app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado));
 
