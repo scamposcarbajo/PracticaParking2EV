@@ -1,5 +1,6 @@
 package ClasesPrincipales;
 
+import ClasesPrincipales2.Terminal2;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 

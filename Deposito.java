@@ -5,8 +5,9 @@ import javax.swing.JOptionPane;
 
 /**
  * Clase que representa un depósito de monedas y billetes en un sistema de pago.
- * Esta clase gestiona el dinero almacenado en el depósito, incluyendo billetes y monedas
- * de diferentes denominaciones. Permite introducir dinero, devolver cambio y validar monedas.
+ * Esta clase gestiona el dinero almacenado en el depósito, incluyendo billetes
+ * y monedas de diferentes denominaciones. Permite introducir dinero, devolver
+ * cambio y validar monedas.
  */
 public class Deposito {
 
@@ -22,14 +23,16 @@ public class Deposito {
     private int centimos5 = 100;   // Monedas de 0.05 euros
 
     /**
-     * Constructor por defecto que inicializa todos los billetes y monedas con valores predeterminados.
+     * Constructor por defecto que inicializa todos los billetes y monedas con
+     * valores predeterminados.
      */
     public Deposito() {
         // Los valores ya están inicializados a 100 por defecto;
     }
 
     /**
-     * Constructor que permite crear un objeto Deposito con valores específicos de monedas.
+     * Constructor que permite crear un objeto Deposito con valores específicos
+     * de monedas.
      *
      * @param monedas2 Cantidad de monedas de 2 euros
      * @param monedas1 Cantidad de monedas de 1 euro
@@ -48,7 +51,6 @@ public class Deposito {
     }
 
     // Métodos getters y setters para acceder y modificar las cantidades de billetes y monedas.
-
     public int getBilletes20() {
         return billetes20;
     }
@@ -122,8 +124,8 @@ public class Deposito {
     }
 
     /**
-     * Método toString que devuelve una representación del estado actual del depósito,
-     * mostrando la cantidad de billetes y monedas almacenadas.
+     * Método toString que devuelve una representación del estado actual del
+     * depósito, mostrando la cantidad de billetes y monedas almacenadas.
      *
      * @return Un String con la representación detallada del depósito.
      */
@@ -139,7 +141,8 @@ public class Deposito {
      * Método que devuelve una representación del cambio que se va a devolver,
      * indicando la cantidad de monedas y su valor.
      *
-     * @param vueltas Objeto de tipo Deposito que contiene las monedas a devolver como cambio.
+     * @param vueltas Objeto de tipo Deposito que contiene las monedas a
+     * devolver como cambio.
      * @return Un String con el cambio a devolver detallado.
      */
     public String toStringMonedas(Deposito vueltas) {
@@ -167,11 +170,12 @@ public class Deposito {
     }
 
     /**
-     * Método para validar que el dinero introducido es válido,
-     * es decir, que no contiene céntimos de 0.01€ o 0.02€.
+     * Método para validar que el dinero introducido es válido, es decir, que no
+     * contiene céntimos de 0.01€ o 0.02€.
      *
      * @param dineroIntroducido Dinero que se ha introducido.
-     * @param terminal Instancia del JFrame desde donde se llama este método (para mostrar mensajes).
+     * @param terminal Instancia del JFrame desde donde se llama este método
+     * (para mostrar mensajes).
      */
     public void validarCentimos(String dineroIntroducido, JFrame terminal) {
         double centimos = (Double.parseDouble(dineroIntroducido) * 100);
@@ -182,49 +186,41 @@ public class Deposito {
         }
     }
 
+    
     /**
-     * Método para introducir dinero en el depósito, actualizando las cantidades
-     * de billetes y monedas en función de lo introducido.
-     *
-     * @param dineroIntroducido0 Dinero introducido como String.
-     */
-    public void introducirDinero(String dineroIntroducido0) {
-        double dinero = Double.parseDouble(dineroIntroducido0);
-
-        // Array de valores de billetes y monedas de mayor a menor
-        double[] valores = {20.0, 10.0, 5.0, 2.0, 1.0, 0.5, 0.2, 0.1, 0.05};
-
-        // Recorremos el array de valores
-        for (int i = 0; i < valores.length; i++) {
-            while (dinero >= valores[i]) {
-                // Actualizamos la cantidad de monedas y billetes en el depósito según el valor introducido
-                switch (i) {
-                    case 0: this.billetes20++; break;
-                    case 1: this.billetes10++; break;
-                    case 2: this.billetes5++; break;
-                    case 3: this.monedas2++; break;
-                    case 4: this.monedas1++; break;
-                    case 5: this.centimos50++; break;
-                    case 6: this.centimos20++; break;
-                    case 7: this.centimos10++; break;
-                    case 8: this.centimos5++; break;
-                }
-                dinero -= valores[i]; // Reducimos el dinero restante
-            }
-        }
+ * Método que actualiza el depósito con las cantidades de billetes y monedas introducidas
+ * desde un arreglo de valores (arraySpinner). Este método recibe los valores de los 
+ * spinners y actualiza el saldo del depósito correspondiente.
+ *
+ * @param arraySpinner Un arreglo de enteros que contiene las cantidades de cada tipo 
+ * de billetes y monedas introducidas.
+ */
+    public void introducirDinero(int[] arraySpinner) {
+        // Actualizar las cantidades de billetes y monedas en el depósito directamente
+        this.billetes20 += arraySpinner[0];
+        this.billetes10 += arraySpinner[1];
+        this.billetes5 += arraySpinner[2];
+        this.monedas2 += arraySpinner[3];
+        this.monedas1 += arraySpinner[4];
+        this.centimos50 += arraySpinner[5];
+        this.centimos20 += arraySpinner[6];
+        this.centimos10 += arraySpinner[7];
+        this.centimos5 += arraySpinner[8];
     }
 
     /**
-     * Método que devuelve el cambio correspondiente a una cantidad de dinero introducida.
-     * Este método calcula el cambio y lo devuelve en un objeto `Deposito` con las monedas correspondientes.
+     * Método que devuelve el cambio correspondiente a una cantidad de dinero
+     * introducida. Este método calcula el cambio y lo devuelve en un objeto
+     * Deposito con las monedas correspondientes.
      *
-     * @param dineroIntroducido Dinero que se ha introducido para calcular el cambio.
-     * @return Un objeto Deposito con las monedas que deben devolverse como cambio.
+     * @param cambioDevolver Dinero que se ha introducido para calcular el
+     * cambio.
+     * @return Un objeto Deposito con las monedas que deben devolverse como
+     * cambio.
      */
-    public Deposito devolverCambio(String dineroIntroducido) {
-        double dinero = Double.parseDouble(dineroIntroducido);
-        double cambio = dinero - 0.5;  // Suponemos que el importe a pagar es 0.50€
+    public Deposito devolverCambio(Double cambioDevolver) {
 
+        // Suponemos que el importe a pagar es 0.50€
         Deposito vueltas = new Deposito(0, 0, 0, 0, 0, 0); // Crear un nuevo depósito para almacenar el cambio
 
         // Array con valores de monedas
@@ -232,14 +228,14 @@ public class Deposito {
 
         // Recorremos cada tipo de moneda
         for (int i = 0; i < valores.length; i++) {
-            while (cambio >= valores[i]) {
+            while (cambioDevolver >= valores[i]) {
                 // Verificamos si hay monedas suficientes y las restamos del depósito
                 switch (i) {
-                    case 0: 
+                    case 0:
                         if (this.monedas2 > 0) {
                             this.monedas2--;
                             vueltas.monedas2++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -248,7 +244,7 @@ public class Deposito {
                         if (this.monedas1 > 0) {
                             this.monedas1--;
                             vueltas.monedas1++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -257,7 +253,7 @@ public class Deposito {
                         if (this.centimos50 > 0) {
                             this.centimos50--;
                             vueltas.centimos50++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -266,7 +262,7 @@ public class Deposito {
                         if (this.centimos20 > 0) {
                             this.centimos20--;
                             vueltas.centimos20++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -275,7 +271,7 @@ public class Deposito {
                         if (this.centimos10 > 0) {
                             this.centimos10--;
                             vueltas.centimos10++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -284,7 +280,7 @@ public class Deposito {
                         if (this.centimos5 > 0) {
                             this.centimos5--;
                             vueltas.centimos5++;
-                            cambio -= valores[i];
+                            cambioDevolver -= valores[i];
                         } else {
                             return vueltas;
                         }
@@ -294,8 +290,8 @@ public class Deposito {
         }
 
         // Si no se puede devolver todo el cambio, notificamos
-        if (cambio > 0) {
-            System.out.println("No se puede devolver el cambio completo. Falta: " + cambio + "€");
+        if (cambioDevolver > 0) {
+            System.out.println("No se puede devolver el cambio completo. Falta: " + cambioDevolver + "€");
         }
 
         return vueltas;

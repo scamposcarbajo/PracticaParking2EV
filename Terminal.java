@@ -2,9 +2,16 @@ package ClasesPrincipales;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.lang.reflect.Array;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,12 +27,38 @@ public class Terminal extends javax.swing.JFrame {
     private JFrame pantallaAparcar;
     private JFrame pantallaRetirar;
     private JFrame pantallaPagar;
+    private JFrame pantallaPagarSpinners;
     private Maquina app = new Maquina();
     private Ticket ticketSeleccionado;
     private Ticket ticket;
     private JTable tabla;//control para mostrar la matriz
     private DefaultTableModel modeloTabla;//contenedor de la matriz de enteros
     private Deposito deposito = new Deposito();
+    private SpinnerNumberModel spinner = new SpinnerNumberModel(0, 0, 100, 1);  // Billetes de 20
+
+    private JSpinner spinnerBilletes20 = new JSpinner(spinner);
+    private JSpinner spinnerBilletes10 = new JSpinner(spinner);
+    private JSpinner spinnerBilletes5 = new JSpinner(spinner);
+    private JSpinner spinnerMonedas2 = new JSpinner(spinner);
+    private JSpinner spinnerMonedas1 = new JSpinner(spinner);
+    private JSpinner spinnerMonedas05 = new JSpinner(spinner);
+    private JSpinner spinnerMonedas02 = new JSpinner(spinner);
+    private JSpinner spinnerMonedas01 = new JSpinner(spinner);
+    private JSpinner spinnerMonedas005 = new JSpinner(spinner);
+    private JTextField labelBilletes20 = new JTextField("Billetes de 20:");
+    private JTextField labelBilletes10 = new JTextField("Billetes de 10:");
+    private JTextField labelBilletes5 = new JTextField("Billetes de 5:");
+    private JTextField labelMonedas2 = new JTextField("Monedas de 2:");
+    private JTextField labelMonedas1 = new JTextField("Monedas de 1:");
+    private JTextField labelMonedas05 = new JTextField("Monedas de 0.5:");
+    private JTextField labelMonedas02 = new JTextField("Monedas de 0.2:");
+    private JTextField labelMonedas01 = new JTextField("Monedas de 0.1:");
+    private JTextField labelMonedas005 = new JTextField("Monedas de 0.05:");
+    private JTextField labelTotal = new JTextField("Total: 0.00 € ");
+
+    private int[] arraySpinner = new int[9];
+
+    private double total;
 
     /**
      * Constructor por defecto de la clase Terminal. Este constructor inicializa
@@ -50,6 +83,26 @@ public class Terminal extends javax.swing.JFrame {
         this.setResizable(false);
         modeloTabla = new DefaultTableModel();
         tabla = new JTable(modeloTabla);
+
+        spinnerBilletes20.addChangeListener(changeListener);
+
+        spinnerBilletes10.addChangeListener(changeListener);
+
+        spinnerBilletes5.addChangeListener(changeListener);
+
+        spinnerMonedas2.addChangeListener(changeListener);
+
+        spinnerMonedas1.addChangeListener(changeListener);
+
+        spinnerMonedas05.addChangeListener(changeListener);
+
+        spinnerMonedas02.addChangeListener(changeListener);
+
+        spinnerMonedas01.addChangeListener(changeListener);
+
+        spinnerMonedas005.addChangeListener(changeListener);
+
+        total = 0;
         actualizarTabla();
         mostrarTabla();
 
@@ -147,13 +200,12 @@ public class Terminal extends javax.swing.JFrame {
      * últimos cambios.
      */
     public void ventanaParquimetro() {
-        //ARREGLAR LO DE LA PUTA TABLA
         //ventana principal del parquimetro
         setSize(350, 720);
         LabelParquimetroPrincipal.setSize(350, 720);
-        //ScrollTabla.setLayout(null);
+
         setContentPane(LabelParquimetroPrincipal);
-        //setResizable(false);
+
         LabelParquimetroPrincipal.add(BotonAparcarCoche);
         LabelParquimetroPrincipal.add(BotonRetirarCoche);
 
@@ -163,7 +215,6 @@ public class Terminal extends javax.swing.JFrame {
         BotonRetirarCoche.setSize(250, 40);
 
         ScrollTabla.setSize(237, 175);
-        //tabla.setSize(237, 175);
 
         BotonAparcarCoche.setBounds(50, 500, BotonAparcarCoche.getWidth(), BotonAparcarCoche.getHeight());
         BotonRetirarCoche.setBounds(50, 550, BotonRetirarCoche.getWidth(), BotonRetirarCoche.getHeight());
@@ -337,6 +388,160 @@ public class Terminal extends javax.swing.JFrame {
     }
 
     /**
+     * Método que crea y configura la ventana para pagar, utilizando spinners
+     * para que el usuario seleccione la cantidad de billetes y monedas que
+     * desea introducir. Además, muestra la información sobre el vehículo y el
+     * monto total a pagar, y permite realizar el pago al hacer clic en el
+     * botón.
+     */
+    public void ventanaPagarSpinners() {
+        pantallaPagarSpinners = new JFrame();
+        pantallaPagarSpinners.setLayout(null);
+        pantallaPagarSpinners.setResizable(false);
+        pantallaPagarSpinners.setVisible(true);
+        LabelPagarSpinners.setVisible(true);
+        pantallaPagarSpinners.setSize(600, 600);
+        pantallaPagarSpinners.setContentPane(LabelPagarSpinners);
+        LabelPagarSpinners.setSize(600, 600);
+
+        LabelPagarSpinners.add(EditorPane2);
+
+        LabelPagarSpinners.add(labelBilletes20);
+        LabelPagarSpinners.add(spinnerBilletes20);
+
+        LabelPagarSpinners.add(labelBilletes10);
+        LabelPagarSpinners.add(spinnerBilletes10);
+
+        LabelPagarSpinners.add(labelBilletes5);
+        LabelPagarSpinners.add(spinnerBilletes5);
+
+        LabelPagarSpinners.add(labelMonedas2);
+        LabelPagarSpinners.add(spinnerMonedas2);
+
+        LabelPagarSpinners.add(labelMonedas1);
+        LabelPagarSpinners.add(spinnerMonedas1);
+
+        LabelPagarSpinners.add(labelMonedas05);
+        LabelPagarSpinners.add(spinnerMonedas05);
+
+        LabelPagarSpinners.add(labelMonedas02);
+        LabelPagarSpinners.add(spinnerMonedas02);
+
+        LabelPagarSpinners.add(labelMonedas01);
+        LabelPagarSpinners.add(spinnerMonedas01);
+
+        LabelPagarSpinners.add(labelMonedas005);
+        LabelPagarSpinners.add(spinnerMonedas005);
+
+        LabelPagarSpinners.add(labelTotal);
+        LabelPagarSpinners.add(BotonPagar);
+        labelTotal.setFont(LabelAñadirMatricula.getFont());
+
+        BotonPagar.setVisible(true);
+
+        EditorPane2.setVisible(true);
+        EditorPane2.setContentType("text/html");
+
+        LabelPagarSpinners.add(labelTotal); // Agregar el JLabel con el total
+
+        EditorPane2.setSize(300, 90);
+        BotonPagar.setSize(100, 30);
+
+        spinnerBilletes20.setBounds(155, 230, 50, 30);
+        spinnerBilletes10.setBounds(275, 230, 50, 30);
+        spinnerBilletes5.setBounds(395, 230, 50, 30);
+        spinnerMonedas2.setBounds(155, 300, 50, 30);
+        spinnerMonedas1.setBounds(275, 300, 50, 30);
+        spinnerMonedas05.setBounds(395, 300, 50, 30);
+        spinnerMonedas02.setBounds(155, 370, 50, 30);
+        spinnerMonedas01.setBounds(275, 370, 50, 30);
+        spinnerMonedas005.setBounds(395, 370, 50, 30);
+
+        labelBilletes20.setBounds(155, 205, 105, 25);
+        labelBilletes10.setBounds(275, 205, 105, 25);
+        labelBilletes5.setBounds(395, 205, 105, 25);
+        labelMonedas2.setBounds(155, 275, 105, 25);
+        labelMonedas1.setBounds(275, 275, 105, 25);
+        labelMonedas05.setBounds(395, 275, 105, 25);
+        labelMonedas02.setBounds(155, 345, 105, 25);
+        labelMonedas01.setBounds(275, 345, 105, 25);
+        labelMonedas005.setBounds(395, 345, 105, 25);
+
+        labelBilletes20.setEditable(false);
+        labelBilletes10.setEditable(false);
+        labelBilletes5.setEditable(false);
+        labelMonedas2.setEditable(false);
+        labelMonedas1.setEditable(false);
+        labelMonedas05.setEditable(false);
+        labelMonedas02.setEditable(false);
+        labelMonedas01.setEditable(false);
+        labelMonedas005.setEditable(false);
+
+        labelTotal.setBounds(260, 420, 105, 25);
+        BotonPagar.setBounds(250, 460, BotonPagar.getWidth(), BotonPagar.getHeight());
+
+        EditorPane2.setBounds(150, 10, EditorPane2.getWidth(), EditorPane2.getHeight());
+
+        EditorPane2.setText("<html><br>Vehiculo con matricula (" + ticketSeleccionado.getMatricula() + ")</br>"
+                + "<br>Estacionado durante (" + app.calcularTiempoTranscurrido(ticketSeleccionado) + ") minutos</br>"
+                + "<br>El importe correspondiente es (" + app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado)) + " €)</br></html>");
+        EditorPane2.setEditable(false);
+
+        // Hacer visible la ventana
+        LabelPagarSpinners.setVisible(true);
+
+        actualizarTabla();
+        pantallaPagarSpinners.setLocationRelativeTo(null);
+
+    }
+
+    protected ChangeListener changeListener = new ChangeListener() {
+        @Override
+        /**
+         * Método que actualiza el total de dinero introducido en base a las
+         * cantidades seleccionadas por el usuario en los JSpinners. Este método
+         * recalcula el total de dinero y actualiza el JLabel que muestra el
+         * monto total con el formato adecuado.
+         *
+         * @param e El evento ChangeEvent generado al cambiar el valor de
+         * cualquiera de los spinners. Este parámetro se usa para realizar la
+         * actualización del total de dinero.
+         */
+        public void stateChanged(ChangeEvent e) {
+            // Obtener los valores de cada JSpinner
+            int billetes20 = (Integer) spinnerBilletes20.getValue();
+            int billetes10 = (Integer) spinnerBilletes10.getValue();
+            int billetes5 = (Integer) spinnerBilletes5.getValue();
+            int monedas2 = (Integer) spinnerMonedas2.getValue();
+            int monedas1 = (Integer) spinnerMonedas1.getValue();
+            int monedas05 = (Integer) spinnerMonedas05.getValue();
+            int monedas02 = (Integer) spinnerMonedas02.getValue();
+            int monedas01 = (Integer) spinnerMonedas01.getValue();
+            int monedas005 = (Integer) spinnerMonedas005.getValue();
+
+            // Agregamos los valores de los spinner en un array para actualizar 
+            // los valores en depósito
+            arraySpinner[0] = billetes20;
+            arraySpinner[1] = billetes10;
+            arraySpinner[2] = billetes5;
+            arraySpinner[3] = monedas2;
+            arraySpinner[4] = monedas1;
+            arraySpinner[5] = monedas05;
+            arraySpinner[6] = monedas02;
+            arraySpinner[7] = monedas01;
+            arraySpinner[8] = monedas005;
+
+            // Calcular el total
+            total = billetes20 * 20.0 + billetes10 * 10.0 + billetes5 * 5.0
+                    + monedas2 * 2.0 + monedas1 * 1.0 + monedas05 * 0.5
+                    + monedas02 * 0.2 + monedas01 * 0.1 + monedas005 * 0.05;
+
+            // Actualizar el JLabel con el total formateado
+            labelTotal.setText(String.format("Total: %.2f € ", total));
+        }
+    };
+
+    /**
      * Verifica si el valor introducido contiene solo números. Este método
      * intenta convertir el texto introducido en un número. El método también
      * elimina los espacios al inicio y al final del texto, y convierte el texto
@@ -491,6 +696,7 @@ public class Terminal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         EditorPane2 = new javax.swing.JEditorPane();
         ScrollTabla = new javax.swing.JScrollPane();
+        LabelPagarSpinners = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(365, 755));
@@ -585,101 +791,91 @@ public class Terminal extends javax.swing.JFrame {
         EditorPane2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jScrollPane2.setViewportView(EditorPane2);
 
+        LabelPagarSpinners.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourcesFotos/Pagar(600x600).png"))); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LabelParquimetroPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BotonAparcarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LabelAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BotonAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BotonIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BotonPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(308, 308, 308)
-                        .addComponent(LabelParquimetroPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(BotonAparcarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(BotonRetirarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(TextAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LabelAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BotonAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BotonIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TextIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LabelIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(LabelRetirarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(BotonPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(36, 36, 36)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(LabelPagar4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(211, 211, 211))
-                                    .addComponent(LabelAparcamiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(304, 304, 304)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(LabelHacienda, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(157, 157, 157))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(66, 66, 66))))
+                            .addComponent(BotonRetirarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LabelIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LabelPagar4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LabelHacienda, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(LabelRetirarCoche, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(LabelAparcamiento, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
+                .addComponent(LabelPagarSpinners, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(114, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(522, 522, 522)
-                .addComponent(LabelIntroducirId)
-                .addGap(69, 69, 69)
-                .addComponent(TextIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonIntroducirId)
-                    .addComponent(LabelHacienda))
-                .addGap(80, 80, 80)
-                .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(BotonPagar)
-                    .addComponent(LabelPagar4))
-                .addGap(166, 166, 166)
-                .addComponent(LabelRetirarCoche)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(LabelParquimetroPrincipal)
+                        .addGap(0, 94, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LabelPagarSpinners)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(BotonAparcarCoche)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(BotonRetirarCoche)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(LabelAñadirMatricula)
+                                .addGap(18, 18, 18)
+                                .addComponent(TextAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BotonAñadirMatricula)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(LabelIntroducirId)
+                                .addGap(18, 18, 18)
+                                .addComponent(TextIntroducirId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BotonIntroducirId)
+                                .addGap(18, 18, 18)
+                                .addComponent(TextPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(BotonPagar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(LabelPagar4)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(BotonAparcarCoche)
-                        .addGap(29, 29, 29)
-                        .addComponent(BotonRetirarCoche)
-                        .addGap(48, 48, 48)
-                        .addComponent(LabelAñadirMatricula)
-                        .addGap(30, 30, 30)
-                        .addComponent(TextAñadirMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(BotonAñadirMatricula))
-                    .addComponent(LabelParquimetroPrincipal)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(258, 258, 258)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(47, 47, 47)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(992, 992, 992)
-                .addComponent(LabelAparcamiento)
-                .addGap(411, 411, 411))
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ScrollTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LabelHacienda)
+                            .addComponent(LabelRetirarCoche)
+                            .addComponent(LabelAparcamiento))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -808,7 +1004,9 @@ public class Terminal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No existe coche con ese ID en este parking", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 // Si el ticket es válido y activo, mostramos la ventana de pago y cerramos la ventana de retiro
-                ventanaPagar();
+
+                ventanaPagarSpinners();
+
                 pantallaRetirar.dispose();
             }
         }
@@ -843,30 +1041,34 @@ public class Terminal extends javax.swing.JFrame {
      */
     private void BotonPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonPagarActionPerformed
 
-        // Comprobaciones de que el campo de texto no esté vacío y que el valor ingresado sea un número válido
-        if (!validoNulos(TextPagar.getText().trim()) || !validoNumeros(TextPagar.getText().trim())) {
-            // Muestra un mensaje de error si no se ingresa un número válido
-            JOptionPane.showMessageDialog(null, "Asegurate de introducir el importe correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
-            return;  // Sale del método si la validación falla
-        }
-
-        // Comprobar si el dinero ingresado es suficiente para cubrir el importe correspondiente
-        if (app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado)) > Double.parseDouble(TextPagar.getText().trim())) {
-            // Muestra un mensaje de error si el dinero ingresado es insuficiente
-            JOptionPane.showMessageDialog(null, "El dinero introducido no alcanza el importe", "ERROR", JOptionPane.ERROR_MESSAGE);
-            return;  // Sale del método si el dinero no es suficiente
-        }
-
+//        // Comprobaciones de que el campo de texto no esté vacío y que el valor ingresado sea un número válido
+//        if (!validoNulos(TextPagar.getText().trim()) || !validoNumeros(TextPagar.getText().trim())) {
+//            // Muestra un mensaje de error si no se ingresa un número válido
+//            JOptionPane.showMessageDialog(null, "Asegurate de introducir el importe correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
+//            return;  // Sale del método si la validación falla
+//        }
+//
+//        // Comprobar si el dinero ingresado es suficiente para cubrir el importe correspondiente
+//        if (app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado)) > Double.parseDouble(TextPagar.getText().trim())) {
+//            // Muestra un mensaje de error si el dinero ingresado es insuficiente
+//            JOptionPane.showMessageDialog(null, "El dinero introducido no alcanza el importe", "ERROR", JOptionPane.ERROR_MESSAGE);
+//            return;  // Sale del método si el dinero no es suficiente
+//        }
+//        // Comprobar si el deposito tiene suficiente dinero como para dar cambio
+//        if (Double.parseDouble(TextPagar.getText().trim()) > deposito.totalDeposito) {
+//            JOptionPane.showMessageDialog(null, "No se puede dar suficiente cambio, por favor introduce una cantidad mas ajustada", "ERROR", JOptionPane.ERROR_MESSAGE);
+//            return; // Sale del metodo si no tiene sufiente dinero
+//        }
         // Calcula el cambio que se debe devolver
-        Double cambio = (Double.parseDouble(TextPagar.getText().trim())) - app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado));
+        Double cambio = total - app.totalDineroDevolver(app.calcularTiempoTranscurrido(ticketSeleccionado));
 
         // Llama al método devolverCambio para obtener las monedas de vuelta
-        Deposito vueltas = deposito.devolverCambio(TextPagar.getText().trim());
+        Deposito vueltas = deposito.devolverCambio(cambio);
 
         // Muestra un mensaje con el cambio que se va a devolver
-        JOptionPane.showMessageDialog(null, "Has introducido " + TextPagar.getText().trim() + " €, la vuelta correspondiente es: " + vueltas.toStringMonedas(vueltas), "VUELTAS", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Has introducido " + total + " €, la vuelta correspondiente es: " + vueltas.toStringMonedas(vueltas), "VUELTAS", JOptionPane.PLAIN_MESSAGE);
         // Actualiza el depósito con el dinero ingresado por el usuario
-        deposito.introducirDinero(TextPagar.getText().trim());
+        deposito.introducirDinero(arraySpinner);
 
         // Libera la plaza correspondiente, ya que el ticket ha sido pagado
         app.liberarPlaza(ticketSeleccionado);
@@ -877,8 +1079,9 @@ public class Terminal extends javax.swing.JFrame {
         // Desactiva el ticket para marcarlo como pagado
         ticketSeleccionado.desactivar();
 
+        System.out.println(deposito.toString());
         // Cierra la ventana de pago
-        pantallaPagar.dispose();
+        pantallaPagarSpinners.dispose();
 
     }//GEN-LAST:event_BotonPagarActionPerformed
 
@@ -908,6 +1111,9 @@ public class Terminal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Terminal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -929,6 +1135,7 @@ public class Terminal extends javax.swing.JFrame {
     private javax.swing.JLabel LabelHacienda;
     private javax.swing.JLabel LabelIntroducirId;
     private javax.swing.JLabel LabelPagar4;
+    private javax.swing.JLabel LabelPagarSpinners;
     private javax.swing.JLabel LabelParquimetroPrincipal;
     private javax.swing.JLabel LabelRetirarCoche;
     private javax.swing.JScrollPane ScrollTabla;
